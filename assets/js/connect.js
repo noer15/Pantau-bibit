@@ -13,6 +13,9 @@ $(document).ready(function() {
         // If cancelled, don't dispatch our event
 	   var canceled = !elem.dispatchEvent(evt);
     };
+
+    // modal
+    
     
     const connectSidebar = function() { 
         var select_sub_menus = $('.accordion-menu li:not(.open) ul'),

@@ -1,32 +1,38 @@
- <div class="connect-container align-content-stretch d-flex flex-wrap">
-            
+ <style type="text/css">
+     #map {
+        z-index: 50;
+        width: 100%;
+        height: 500px;
+    }
+ </style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+
+ <div class="connect-container align-content-stretch d-flex flex-wrap">  
             <div class="page-container">
-                <div class="page-header">
+               <div class="page-header">
                     <nav class="navbar navbar-expand">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link" id="dark-theme-toggle"><i class="material-icons-outlined">brightness_2</i><i class="material-icons">brightness_2</i></a>
+                            <li class="nav-item small-screens-sidebar-link">
+                                <a href="#" class="nav-link"><i class="material-icons-outlined">menu</i></a>
                             </li>
-                        </ul>
-                        <div class="collapse navbar-collapse" id="navbarNav">
-                           
-                        </div>
-                        <div class="navbar-search">
-                            <ul class="navbar-nav">
-                                <li class="nav-item nav-profile dropdown">
+                            <li class="nav-item nav-profile dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-user"></i>
-                                    <span><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
+                                    <span style="padding-left: 10px;"><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="<?=site_url('logout') ?>">Log out</a>
                                 </div>
                             </li>
-                            </ul>
-                        </div>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" id="dark-theme-toggle"><i class="material-icons-outlined">brightness_2</i><i class="material-icons">brightness_2</i></a>
+                            </li>
+                        </ul>
+                        
                     </nav>
                 </div>
                 <div class="page-content">
@@ -48,21 +54,8 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title">$3,089.67<span class="stats-change stats-change-danger">-8%</span></h5>
-                                            <p class="stats-text">Total revenue for last  20 days</p>
-                                        </div>
-                                        <div class="stats-icon change-danger">
-                                            <i class="material-icons">trending_down</i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="card card-transparent stats-card">
-                                    <div class="card-body">
-                                        <div class="stats-info">
-                                            <h5 class="card-title">168,047<span class="stats-change stats-change-success">+16%</span></h5>
-                                            <p class="stats-text">Unique visitors in current period</p>
+                                            <h5 class="card-title"><?=$total_sumbangan->jumlah ?><span class="stats-change stats-change-success">+<?=$perhari_sumbangan->jumlah ?></span></h5>
+                                            <p class="stats-text">Total Jumlah Sumbangan</p>
                                         </div>
                                         <div class="stats-icon change-success">
                                             <i class="material-icons">trending_up</i>
@@ -74,8 +67,24 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title">47,350<span class="stats-change stats-change-success">+12%</span></h5>
-                                            <p class="stats-text">Total investments in this month</p>
+                                            <h5 class="card-title">
+                                                <!--  -->
+                                             
+                                                <span class="stats-change stats-change-success">+ <?=$kab_perhari->kab ?></span></h5>
+                                            <p class="stats-text">Total Jumlah Kabupaten</p>
+                                        </div>
+                                        <div class="stats-icon change-success">
+                                            <i class="material-icons">trending_up</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card card-transparent stats-card">
+                                    <div class="card-body">
+                                        <div class="stats-info">
+                                            <h5 class="card-title"><?=$this->db->get('sumbangan')->num_rows() ?><span class="stats-change stats-change-success">+ <?=$desa_perhari->desa ?></span></h5>
+                                            <p class="stats-text">Total Jumlah Desa</p>
                                         </div>
                                         <div class="stats-icon change-success">
                                             <i class="material-icons">trending_up</i>
@@ -85,83 +94,27 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-12">
                                 <div class="card savings-card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Savings<span class="card-title-helper">30 Days</span></h5>
-                                        <div class="savings-stats">
-                                            <h5>$4,502.00</h5>
-                                            <span>Total savings for last month</span>
-                                        </div>
-                                        <div id="sparkline-chart-1"></div>
-                                    </div>
-                                </div>
-                                <div class="card top-products">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Popular Products<span class="card-title-helper">Today</span></h5>
-                                        <div class="top-products-list">
-                                            <div class="product-item">
-                                                <h5>Alpha - File Hosting Service</h5>
-                                                <span>4,037 downloads</span>
-                                                <i class="material-icons product-item-status product-item-success">arrow_upward</i>
-                                            </div>
-                                            <div class="product-item">
-                                                <h5>Lime - Task Managment Dashboard</h5>
-                                                <span>1,876 downloads</span>
-                                                <i class="material-icons product-item-status product-item-success">arrow_upward</i>
-                                            </div>
-                                            <div class="product-item">
-                                                <h5>Space - Meetup Hosting App</h5>
-                                                <span>1,252 downloads</span>
-                                                <i class="material-icons product-item-status product-item-danger">arrow_downward</i>
-                                            </div>
-                                            <div class="product-item">
-                                                <h5>Meteor - Messaging App</h5>
-                                                <span>938 downloads</span>
-                                                <i class="material-icons product-item-status product-item-success">arrow_upward</i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <ul class="nav nav-tabs card-header-tabs">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" href="#">Visitors</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Reports</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="#">Investments</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="visitors-stats">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <div class="visitors-stats-info">
-                                                        <p>Total visitors in the current period:</p>
-                                                        <h5>77,871</h5>
-                                                        <span>6-26 Apr</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="visitors-stats-info">
-                                                        <p>Unique visitors in the current period and ratio:</p>
-                                                        <h5>58,403</h5>
-                                                        <span>6-26 Apr</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                            <div id="chart-visitors"></div>
-                                        </div>
+                                    <div id="map"></div>
+
+                                      <script>
+
+                                      var mymap = L.map('map').setView([-6.914744, 107.609810], 13);
+                                        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+                                                maxZoom: 15,
+                                                minZoom: 13,
+                                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+                                                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                                                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                                            id: 'mapbox/streets-v11',
+                                        
+                                        }).addTo(mymap);
+
+                                         
+                                     
+                                      </script>
                                     </div>
                                 </div>
                             </div>

@@ -6,12 +6,27 @@
             <li class="sidebar-title">
                 Apps
             </li>
-            <li class="active-page">
-                <a href="<?=site_url() ?>" class="active"><i class="material-icons-outlined">dashboard</i>Dashboard</a>
+            <li>
+                <a href="<?=site_url() ?>" >Dashboard</a>
             </li>
             <li>
-                <a href="<?=site_url('category') ?>"><i class="material-icons-outlined">category</i>Kategori</a>
+                <a href="<?=site_url('sumbang') ?>" >Sumbang Bibit</a>
             </li>
+            <li>
+                <a href="#">Master Data<i class="material-icons has-sub-menu">add</i></a>
+                <ul class="sub-menu">
+                     <li>
+                        <a href="<?=site_url('category') ?>">Kategori GTPP</a>
+                    </li>
+                     <li>
+                        <a href="<?=site_url('jenis') ?>">Jenis Bibit</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="<?=site_url('laporan') ?>" >Laporan</a>
+            </li>
+           
             
             
         </ul>
