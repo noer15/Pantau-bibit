@@ -46,6 +46,10 @@ $route['sumbang/update']    			= 'SumbangController/update';
 
 // laporan
 $route['laporan']    					= 'LaporanController';
+$route['laporan/provinsi']    			= 'LaporanController/provinsi';
+$route['laporan/kabupaten']    			= 'LaporanController/kabupaten';
+$route['laporan/kecamatan']    			= 'LaporanController/kecamatan';
+$route['laporan/desa']    				= 'LaporanController/desa';
 
 
 

@@ -54,6 +54,11 @@
                                                     <div class="group-form">
                                                         <input type="text" name="jenis" class="form-control" placeholder="enter jenis bibit">
                                                     </div>
+                                                </div><br>
+                                                <div class="modal-body">
+                                                    <div class="group-form">
+                                                        <input type="text" name="warna" class="form-control" placeholder="enter warna bibit">
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -83,6 +88,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Jenis Tanaman</th>
+                                                <th>Warna Kordinat</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -93,6 +99,9 @@
                                                 <tr>
                                                     <td><?=$no++ ?></td>
                                                     <td><?=$j->jenis_name ?></td>
+                                                    <td>
+                                                        <div style="height: 25px;width: 25px;background-color:<?=$j->warna ?>;border-radius: 50%;display: inline-block;"></div>
+                                                    </td>
                                                     <td>
                                                         <a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_edit<?=$j->id_jenis;?>">Edit</a>
                                                         <a href="<?=site_url('jenis/delete/'.$j->id_jenis) ?>" class="btn btn-danger btn-sm">Hapus</a>
@@ -105,6 +114,7 @@
                                     foreach($jenis as $i):
                                         $id=$i->id_jenis;
                                         $nama=$i->jenis_name;
+                                        $warna=$i->warna;
                                     ?>
                                         <div class="modal fade" id="modal_edit<?php echo $id;?>"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -119,6 +129,9 @@
                                                             <div class="modal-body">
                                                                 <div class="group-form">
                                                                     <input type="text" name="jenis" class="form-control" placeholder="enter category" value="<?php echo $nama;?>">
+                                                                </div><br>
+                                                                <div class="group-form">
+                                                                    <input type="text" name="warna" class="form-control" placeholder="enter category" value="<?php echo $warna;?>" style="color: <?php echo $warna;?>;">
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">

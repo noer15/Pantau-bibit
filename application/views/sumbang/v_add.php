@@ -38,6 +38,8 @@
                     }
                 }); 
             }
+
+      
         </script>
 <div class="connect-container align-content-stretch d-flex flex-wrap">        
     <div class="page-container">
@@ -98,7 +100,7 @@
                                                                 <?php
                                                                 foreach ($provinsi->result() as $p) {
                                                                     echo "<option>--Pilih Provinsi--</option>";
-                                                                    echo "<option value='$p->id'>$p->nama_prov</option>";
+                                                                    echo "<option value='$p->id_prov'>$p->nama_prov</option>";
                                                                 }
                                                                 ?>
                                                             </select>

@@ -26,8 +26,6 @@
             <li>
                 <a href="<?=site_url('laporan') ?>" >Laporan</a>
             </li>
-           
-            
             
         </ul>
     </div>

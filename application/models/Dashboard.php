@@ -24,6 +24,14 @@ class Dashboard extends CI_Model
 		->get("sumbangan");
 	}
 
+	public function penyumbang()
+	{
+		return $this->db
+		->select('COUNT(nama_penyumbang) as penyumbang')
+		->where('date_format(date,"%Y-%m-%d")', 'CURDATE()', FALSE)
+		->get("sumbangan");
+	}
+
 	public function kab_perhari()
 	{
 		return $this->db
@@ -36,7 +44,6 @@ class Dashboard extends CI_Model
 	{
 		return $this->db
 		->select('COUNT(id_kab) as kab')
-		->order_by('id_kab','DESC')
 		->group_by('id_kab')
 		->get("sumbangan");
 	}

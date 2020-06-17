@@ -44,7 +44,7 @@
                             </ol>
                         </nav>
                         <div class="page-options">
-                            <a href="#" class="btn btn-secondary">Settings</a>
+                            <a href="<?=site_url('account') ?>" class="btn btn-secondary">Account</a>
                             <a href="#" class="btn btn-primary">Upgrade</a>
                         </div>
                     </div>
@@ -54,7 +54,10 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title"><?=$total_sumbangan->jumlah ?><span class="stats-change stats-change-success">+<?=$perhari_sumbangan->jumlah ?></span></h5>
+                                            <h5 class="card-title"><?=$total_sumbangan->jumlah ?><span class="stats-change stats-change-success">+ 
+                                                <?php $tes = $perhari_sumbangan->jumlah ?>
+                                                <?=$sumbangan = $tes === NULL ? '0' : $tes   ?>
+                                                </span></h5>
                                             <p class="stats-text">Total Jumlah Sumbangan</p>
                                         </div>
                                         <div class="stats-icon change-success">
@@ -69,7 +72,7 @@
                                         <div class="stats-info">
                                             <h5 class="card-title">
                                                 <!--  -->
-                                             
+                                                <?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?>
                                                 <span class="stats-change stats-change-success">+ <?=$kab_perhari->kab ?></span></h5>
                                             <p class="stats-text">Total Jumlah Kabupaten</p>
                                         </div>
@@ -101,18 +104,29 @@
 
                                       <script>
 
-                                      var mymap = L.map('map').setView([-6.914744, 107.609810], 13);
-                                        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-                                                maxZoom: 15,
-                                                minZoom: 13,
-                                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                                                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                                                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                                            id: 'mapbox/streets-v11',
-                                        
-                                        }).addTo(mymap);
+                                      var mymap = L.map('map').setView([-6.943097, 107.633545], 8);
+                                      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                                        maxZoom: 18,
+                                        minZoom: 7,
+                                        id: 'mapbox/streets-v11',
+                                        tileSize: 512,
+                                        zoomOffset: -1,
+                                        accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+                                    }).addTo(mymap);
+                                      <?php foreach ($lokasi as $l): ?>
+                                          var circle = L.circle([<?=$l->lat ?>, <?=$l->long ?>], {
+                                            color: '<?=$l->warna ?>',
+                                            fillColor: '<?=$l->warna ?>',
+                                            fillOpacity: 0.5,
+                                            radius: 500,
+                                            weight: 10
+                                            }).addTo(mymap);
+                                            circle.bindPopup("<?=$l->jenis_name ?>");
+                                      <?php endforeach ?>
+                                      
 
-                                         
+                                      
                                      
                                       </script>
                                     </div>

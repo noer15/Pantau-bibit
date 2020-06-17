@@ -44,13 +44,13 @@
                                     <div class="logo-box"><a href="#" class="logo-text">Pantau Bibit</a></div>
                                     <form action="<?=site_url('login/action') ?>" method="POST">
                                         <div class="form-group">
-                                            <input type="text" class="form-control <?= ($this->session->flashdata('error_username') ? 'parsley-error' : '') ?>" id="username" name="username" value="<?=$this->session->flashdata('username')?>" placeholder="Enter NIP">
+                                            <input type="text" class="form-control <?= ($this->session->flashdata('error_username') ? 'parsley-error' : '') ?>" id="username" name="username" value="<?=$this->session->flashdata('username')?>" placeholder="Enter NIP" required>
                                                 <?php if($this->session->flashdata('error_username')): ?>
                                                     <ul class="parsley-errors-list filled" id="parsley-id-5" aria-hidden="false"><li class="parsley-required"><?=$this->session->flashdata('error_username')?></li></ul>
                                                 <?php endif; ?>
                                         </div>
                                         <div class="form-group">
-                                             <input type="password" class="form-control <?= ($this->session->flashdata('error_password') ? 'parsley-error' : '') ?>" id="userpassword" name="password" placeholder="Enter Password">
+                                             <input type="password" class="form-control <?= ($this->session->flashdata('error_password') ? 'parsley-error' : '') ?>" id="userpassword" name="password" placeholder="Enter Password" required>
                                                     <?php if($this->session->flashdata('error_password')): ?>
                                                         <ul class="parsley-errors-list filled" id="parsley-id-5" aria-hidden="false"><li class="parsley-required"><?=$this->session->flashdata('error_password')?></li></ul>
                                                     <?php endif; ?>

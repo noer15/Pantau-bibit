@@ -25,9 +25,11 @@ class JenisController extends CI_Controller {
 
     public function add_action(){
         $name = $this->input->post('jenis');
+        $warna = $this->input->post('warna');
  
         $data = array(
-            'jenis_name' => $name
+            'jenis_name' => $name,
+            'warna' => $warna
             );
         $this->Jenis->input_data($data,'jenis');
         $this->session->set_flashdata('msg', 'Jenis bibit has been added');
@@ -44,9 +46,11 @@ class JenisController extends CI_Controller {
 
     public function update(){
         $name = $this->input->post('jenis');
+        $warna = $this->input->post('warna');
  
         $data = array(
-            'jenis_name' => $name
+            'jenis_name' => $name,
+            'warna' => $warna
             );
        $where = array( 'id_jenis' => $_POST['id'] );
         $this->Jenis->update_data($where,$data,'jenis');

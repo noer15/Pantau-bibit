@@ -105,7 +105,7 @@ class SumbangController extends CI_Controller {
         echo "<select id='kabupaten' onChange='loadKecamatan()' class='form-control' name='kab'>";
         foreach ($kabupaten->result() as $k)
         {
-            echo "<option value='$k->id'>$k->nama_kab</option>";
+            echo "<option value='$k->id_kabupaten'>$k->nama_kab</option>";
         }
         echo "</select></div>";
     }
@@ -118,7 +118,7 @@ class SumbangController extends CI_Controller {
         echo "<select id='kecamatan' onChange='loadDesa()' class='form-control' name='kec'>";
         foreach ($kecamatan->result() as $k)
         {
-            echo "<option value='$k->id'>$k->nama_kec</option>";
+            echo "<option value='$k->id_kecamatan'>$k->nama_kec</option>";
         }
         echo"</select></div>";
     }
@@ -131,7 +131,7 @@ class SumbangController extends CI_Controller {
         echo "<select class='form-control' name='desa'>";
         foreach ($desa->result() as $d)
         {
-            echo "<option value='$d->id'>$d->nama_desa</option>";
+            echo "<option value='$d->id_desa'>$d->nama_desa</option>";
         }
         echo"</select></div>";
     }
