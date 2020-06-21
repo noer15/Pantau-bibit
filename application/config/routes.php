@@ -36,6 +36,8 @@ $route['sumbang']    					= 'SumbangController';
 $route['sumbang/kabupaten']    			= 'SumbangController/kabupaten';
 $route['sumbang/kecamatan']    			= 'SumbangController/kecamatan';
 $route['sumbang/desa']    				= 'SumbangController/desa';
+$route['sumbang/get_wilayah/(:num)']   	= 'SumbangController/get_wilayah/$1';
+$route['sumbang/wilayah']   			= 'SumbangController/wilayah';
 
 
 $route['sumbang/add']    				= 'SumbangController/add';

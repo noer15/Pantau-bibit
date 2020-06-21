@@ -27,8 +27,20 @@
                     }
                 }); 
             }
-
-
+            function loadDesa()
+            {
+                var kecamatan = $("#kecamatan").val();
+                $.ajax({
+                    type:'GET',
+                    url:"<?php echo site_url('sumbang'); ?>/desa",
+                    data:"id=" + kecamatan,
+                    success: function(html)
+                    { 
+                        $("#desaArea").html(html);
+                    }
+                }); 
+            }
+            
             
 
       
@@ -100,24 +112,37 @@
                                         <table id="zero-conf" class="display" style="width:100%">
                                             <thead>
                                                 <tr>
+                                                    <th>No</th>
                                                     <th>Kabupaten</th>
                                                     <th>Total Penyumbang</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
+                                                $no =1;
+                                                $total =0;
                                                 foreach ($show as $row ): ?>
                                                    <tr>
-                                                       <td><?=$row->nama_kab ?></td>
-                                                       <td><?=$row->total ?></td>
+                                                        <td><?=$no++ ?></td>
+                                                        <td><?=$row->nama_kab ?></td>
+                                                        <td><?=$row->total ?> Pohon</td>
                                                    </tr>
-                                               <?php endforeach ?>   
+                                                   <?php $total += $row->total;  ?>
+                                               <?php endforeach ?> 
+                                               </tbody>  
+                                                <tr style="background-color: #949494; color: #fff">
+                                                    <td colspan="2">Total</td>
+                                                    <td><?=$total ?> Pohon</td>
+                                                </tr>
+
                                         </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                
         </div>
     </div>
 </div>

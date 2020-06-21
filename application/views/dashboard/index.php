@@ -106,7 +106,7 @@
 
                                       var mymap = L.map('map').setView([-6.943097, 107.633545], 8);
                                       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                                         maxZoom: 18,
                                         minZoom: 7,
                                         id: 'mapbox/streets-v11',
@@ -115,17 +115,17 @@
                                         accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
                                     }).addTo(mymap);
                                       <?php foreach ($lokasi as $l): ?>
-                                          var circle = L.circle([<?=$l->lat ?>, <?=$l->long ?>], {
+                                          var circle = L.circle([<?=$l->latitude ?>, <?=$l->longitude ?>], {
                                             color: '<?=$l->warna ?>',
                                             fillColor: '<?=$l->warna ?>',
                                             fillOpacity: 0.5,
                                             radius: 500,
                                             weight: 10
                                             }).addTo(mymap);
-                                            circle.bindPopup("<?=$l->jenis_name ?>");
+                                            circle.bindPopup("<?=$l->nama_desa ?></br>"+
+                                                            "<?=$l->nama_kab ?></br>");
                                       <?php endforeach ?>
                                       
-
                                       
                                      
                                       </script>
@@ -137,80 +137,54 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="alert alert-info no-m" role="alert">
-                                        Data has been updated 35 minutes ago, go to the reports page to access data history.
+                                        Data dibawah berdasarkan penyumbang dan jenis yang sudah menanam
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Server Load<span class="card-title-helper">Optimal</span></h5>
-                                        <div class="server-load row">
-                                            <div class="server-stat col-sm-4">
-                                                <p>167GB</p>
-                                                <span>Usage</span>
-                                            </div>
-                                            <div class="server-stat col-sm-4">
-                                                <p>320GB</p>
-                                                <span>Space</span>
-                                            </div>
-                                            <div class="server-stat col-sm-4">
-                                                <p>57.4%</p>
-                                                <span>CPU</span>
-                                            </div>
-                                        </div>
-                                        <div id="server-load-chart"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
+                            <div class="col-lg-12">
                                 <div class="card card-transactions">
                                     <div class="card-body">
-                                        <h5 class="card-title">Transactions<a href="#" class="card-title-helper blockui-transactions"><i class="material-icons">refresh</i></a></h5>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped">
-                                                <thead>
+                                       <div class="card-body card-transactions">
+                                        <?php if($this->session->flashdata('msg') == TRUE):?> 
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Success!</strong> <?php echo $this->session->flashdata('msg'); ?>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        <?php endif; ?>
+                                        <table id="zero-conf" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Kabupaten</th>
+                                                    <th>Kecamatan</th>
+                                                    <th>Desa</th>
+                                                    <th>Kategori</th>
+                                                    <th>Jenis</th>
+                                                    <th>Jumlah</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $no =1;
+                                                foreach ($view as $s): ?>
                                                     <tr>
-                                                        <th scope="col">ID</th>
-                                                        <th scope="col">Company</th>
-                                                        <th scope="col">Amount</th>
-                                                        <th scope="col">Status</th>
+                                                        <td><?=$no++ ?></td>
+                                                        <td><?=$s->nama_kab ?></td>
+                                                        <td><?=$s->nama_kec ?></td>
+                                                        <td><?=$s->nama_desa ?></td>
+                                                        <td><?=$s->name_category ?></td>
+                                                        <td>
+                                                            <span style="background-color:<?=$s->warna?>;padding: 3px;color: #fff; border-radius: 4px; font-size: 12px;">
+                                                                <?=$s->jenis_name ?>
+                                                            </span>
+                                                        </td>
+                                                        <td><?=$s->jumlah ?></td>
                                                     </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>0776</td>
-                                                        <td>Sale Management</td>
-                                                        <td>$18, 560</td>
-                                                        <td><span class="badge badge-success">Finished</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>0759</td>
-                                                        <td>Dropbox</td>
-                                                        <td>$40, 672</td>
-                                                        <td><span class="badge badge-warning">Waiting</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>0741</td>
-                                                        <td>Social Media</td>
-                                                        <td>$13, 378</td>
-                                                        <td><span class="badge badge-info">In Progress</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>0740</td>
-                                                        <td>Envato Market</td>
-                                                        <td>$17, 456</td>
-                                                        <td><span class="badge badge-info">In Progress</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>0735</td>
-                                                        <td>Graphic Design</td>
-                                                        <td>$29, 999</td>
-                                                        <td><span class="badge badge-secondary">Canceled</span></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table> 
-                                        </div>     
+                                                <?php endforeach ?>
+                                        </table>
+                                    </div>  
                                     </div>
                                 </div>
                             </div>

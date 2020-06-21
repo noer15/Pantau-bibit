@@ -103,6 +103,7 @@ class SumbangController extends CI_Controller {
         echo " <div class='form-group'>
                 <label>Kabupaten</label>";
         echo "<select id='kabupaten' onChange='loadKecamatan()' class='form-control' name='kab'>";
+        echo "<option value='Pilih negara dahulu' data-id='0' >--Pilih Kabupaten --</option>";
         foreach ($kabupaten->result() as $k)
         {
             echo "<option value='$k->id_kabupaten'>$k->nama_kab</option>";
@@ -116,6 +117,7 @@ class SumbangController extends CI_Controller {
         echo " <div class='form-group'>
                 <label>Kecamatan</label>";
         echo "<select id='kecamatan' onChange='loadDesa()' class='form-control' name='kec'>";
+        echo "<option value='Pilih negara dahulu' data-id='0' >--Pilih Kecamatan --</option>";
         foreach ($kecamatan->result() as $k)
         {
             echo "<option value='$k->id_kecamatan'>$k->nama_kec</option>";
@@ -128,12 +130,41 @@ class SumbangController extends CI_Controller {
         $desa         = $this->db->get_where('desa',array('id_kecamatan'=>$kecamatanID));
         echo " <div class='form-group'>
                 <label>Desa</label>";
-        echo "<select class='form-control' name='desa'>";
+        echo "<select id='wilayah' onChange='loadWilayah()' class='form-control' name='desa'>";
+        echo "<option value='Pilih negara dahulu' data-id='0' >--Pilih Desa --</option>";
         foreach ($desa->result() as $d)
         {
-            echo "<option value='$d->id_desa'>$d->nama_desa</option>";
+            echo "<option value='$d->id_desa' data-id='$d->id_desa'>$d->nama_desa</option>";
         }
         echo"</select></div>";
+    }
+
+    function wilayah(){
+        $desa  = $_GET['id'];
+        $wilayah  = $this->db->get_where('desa',array('id_desa'=>$desa));
+        echo "<div class='col-md-6'><div class='form-group'>
+                <label>Latitude</label>";
+        foreach ($wilayah->result() as $d)
+        {
+            echo "<input type='text' class='form-control' name='lat' value='$d->latitude'>";
+        }
+        echo"</div></div>";
+
+
+         echo "<div class='col-md-6' style='float:right; margin-top:-90px;'><div class='form-group'>
+                <label>Longitude</label>";
+        foreach ($wilayah->result() as $d)
+        {
+            echo "<input type='text' class='form-control' name='long' value='$d->longitude'>";
+        }
+        echo"</div></div>";
+    }
+
+    function get_wilayah($id){
+        if($id != 'null'):
+        $result = $this->Sumbang->get_wilayah($id)->result();
+        echo json_encode($result);
+        endif;
     }
 
     public function delete($id)

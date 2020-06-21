@@ -38,7 +38,9 @@ class Sumbang extends CI_Model
 		$this->db->update($table,$data);
 	}
 
-
+	function get_wilayah($id){
+        return $this->db->get_where('desa',['id_desa'=>$id]);
+    }
 	// total penyumbang
 	public function total_sumbangan()
 	{

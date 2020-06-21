@@ -17,6 +17,7 @@ class LaporanController extends CI_Controller {
 	
 	public function index()
 	{
+        
         $data['show']               = $this->Laporan->total_perkab()->result();
         $data['provinsi']           = $this->db->get('provinsi')->result();
         $template['title']          = 'Aplikasi Pantau Bibit - Laporan';
@@ -50,14 +51,39 @@ class LaporanController extends CI_Controller {
         {
             echo "<option value='$k->id_kecamatan'>$k->nama_kec</option>";
         }
-        echo"</select></div>";
-        foreach ($getkab as $kab)
-        {
-            echo "<h1>$kab->jenis_name</h1>";
-        }
+        echo"</select></div><br>";
+        
+            echo"<div class='main-wrapper' id='kab_hide'>
+                        <div class='card'>
+                            <div class='card-body'>
+                                 <table id='zero-conf' class='display' style='width:100%'>
+                                    <thead>
+                                        <th>Jenis</th>
+                                    </thead>
+                                    <tbody>";
+                                    foreach ($getkab as $kab)
+                                        {
+                                        echo "<tr>
+                                                <td>$kab->nama_kec</td>
+                                            <tr>";
+                                        }
+                                    echo "</tbody>
+
+                                 </table>
+                            </div>
+                        </div>
+                </div>";
+       
 
     }
     
+
+
+    private function desa(){
+        $kecamatanID  = $_GET['id'];
+        $desa         = $this->db->get_where('desa',array('id_kecamatan'=>$kecamatanID));
+        $getkec     = $this->Laporan->get_kec($kecamatanID)->result();
+    }
 
     
 

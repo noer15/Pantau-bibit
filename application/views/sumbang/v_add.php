@@ -1,4 +1,9 @@
+<!-- <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+<style>
+    #wilayahArea {width: 100%;}
+</style>
 <script type="text/javascript">
+
             function loadKabupaten()
             {
                 var propinsi = $("#propinsi").val();
@@ -39,8 +44,27 @@
                 }); 
             }
 
-      
+            function loadWilayah()
+            {
+                var wilayah = $("#wilayah").val();
+                $.ajax({
+                    type:'GET',
+                    url:"<?php echo site_url('sumbang'); ?>/wilayah",
+                    data:"id=" + wilayah,
+                    success: function(html)
+                    { 
+                        $("#wilayahArea").html(html);
+                    }
+                }); 
+            }
+
+            // script
+
+            
+           
         </script>
+
+
 <div class="connect-container align-content-stretch d-flex flex-wrap">        
     <div class="page-container">
         <div class="page-header">
@@ -119,18 +143,8 @@
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Latitude</label>
-                                                         <input type="text" class="form-control" name="lat">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Longitude</label>
-                                                         <input type="text" class="form-control" name="long">
-                                                    </div>
-                                                </div>
+                                                    <div id="wilayahArea"></div>
+                                            
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -182,3 +196,4 @@
                 </div>
             </div>
         </div>
+       

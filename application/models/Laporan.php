@@ -21,10 +21,13 @@ class Laporan extends CI_Model
 
 	public function get_kab($kabupatenID)
 	{
-		return $this->db->query("SELECT sumbangan.*, pantau_bibit.kabupaten.*, pantau_bibit.jenis.*, pantau_bibit.jenis.id_jenis FROM pantau_bibit.jenis JOIN sumbangan ON pantau_bibit.jenis.id_jenis = sumbangan.id_jenis  JOIN pantau_bibit.kabupaten ON pantau_bibit.kabupaten.id_kabupaten = sumbangan.id_kab WHERE id_kab ='$kabupatenID'");
+		return $this->db->query("SELECT * FROM pantau_bibit.kabupaten JOIN pantau_bibit.sumbangan ON pantau_bibit.kabupaten.id_kabupaten = pantau_bibit.sumbangan.id_kab  JOIN pantau_bibit.kecamatan ON pantau_bibit.kecamatan.id_kecamatan = pantau_bibit.sumbangan.id_kec  JOIN pantau_bibit.jenis ON pantau_bibit.jenis.id_jenis = pantau_bibit.sumbangan.id_jenis  WHERE id_kab = '$kabupatenID'");
 	}
 
-
+	public function get_kec($kecamatanID)
+	{
+		return $this->db->query("SELECT * FROM pantau_bibit.kabupaten JOIN pantau_bibit.sumbangan ON pantau_bibit.kabupaten.id_kabupaten = pantau_bibit.sumbangan.id_kab  JOIN pantau_bibit.kecamatan ON pantau_bibit.kecamatan.id_kecamatan = pantau_bibit.sumbangan.id_kec  JOIN pantau_bibit.jenis ON pantau_bibit.jenis.id_jenis = pantau_bibit.sumbangan.id_jenis  JOIN pantau_bibit.desa ON pantau_bibit.desa.id_desa = pantau_bibit.sumbangan.id_desa where id_kec = '$kecamatanID' ");
+	}
 	public function get_jenis()
 	{
 		return $this->db

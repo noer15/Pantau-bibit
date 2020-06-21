@@ -19,6 +19,7 @@ class MainController extends CI_Controller {
 	
 	public function index()
 	{
+        $data['view']   = $this->Sumbang->get_all()->result();
         $data['lokasi']             = $this->Sumbang->get_all()->result();
         $data['penyumbang']         = $this->Dashboard->penyumbang()->row();
         $data['desa_perhari']       = $this->Dashboard->desa_perhari()->row();
@@ -32,7 +33,7 @@ class MainController extends CI_Controller {
 
    public function testing()
    {
-        $testing = $this->db->query("SELECT COUNT(id_kab) as tes FROM sumbangan GROUP BY id_kab")->num_rows();
+        $testing = $this->Sumbang->get_all()->result();
         print_r($testing);
    }
 
