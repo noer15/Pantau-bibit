@@ -54,6 +54,11 @@ $route['laporan/kecamatan']    			= 'LaporanController/kecamatan';
 $route['laporan/desa']    				= 'LaporanController/desa';
 
 
+// account
+$route['account']    					= 'AccountController';
+
+
+
 
 
 

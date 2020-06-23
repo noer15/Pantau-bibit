@@ -4,6 +4,7 @@
         width: 100%;
         height: 500px;
     }
+    .leaflet-popup-content{width: 100px;}
  </style>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
@@ -44,8 +45,7 @@
                             </ol>
                         </nav>
                         <div class="page-options">
-                            <a href="<?=site_url('account') ?>" class="btn btn-secondary">Account</a>
-                            <a href="#" class="btn btn-primary">Upgrade</a>
+                            <a href="<?=site_url('account') ?>" class="btn btn-primary">Account</a>
                         </div>
                     </div>
                     <div class="main-wrapper">
@@ -115,21 +115,21 @@
                                         accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
                                     }).addTo(mymap);
                                       <?php foreach ($lokasi as $l): ?>
-                                          var circle = L.circle([<?=$l->latitude ?>, <?=$l->longitude ?>], {
+                                          var circle = L.circle(['<?=$l->latitude ?>','<?=$l->longitude ?>'], {
                                             color: '<?=$l->warna ?>',
                                             fillColor: '<?=$l->warna ?>',
                                             fillOpacity: 0.5,
                                             radius: 500,
                                             weight: 10
                                             }).addTo(mymap);
-                                            circle.bindPopup("<?=$l->nama_desa ?></br>"+
-                                                            "<?=$l->nama_kab ?></br>");
+                                            circle.bindPopup("<img src='<?=base_url('assets/images/'.$l->foto) ?>' width='50px;' style='margin:0 auto; display:flex;'></br>"+"<table><tr style='font-size:12px;color: #171717;'><td>Nama</td><td>:</td><td><?=$l->nama_penyumbang?></td></tr><tr style='font-size:12px;color: #171717;'><td>Jenis</td><td>:</td><td><?=$l->jenis_name?></td></tr><tr style='font-size:12px;color: #171717;'><td>Jumlah</td><td>:</td><td><?=$l->jumlah?></td></tr></table>");
                                       <?php endforeach ?>
-                                      
-                                      
                                      
                                       </script>
+
+                                      
                                     </div>
+
                                 </div>
                             </div>
                         </div>

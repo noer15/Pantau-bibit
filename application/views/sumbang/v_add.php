@@ -106,7 +106,7 @@
                                 <div class="card">
                                     
 
-                                    <form action="<?=site_url('sumbang/add_action') ?>" method="POST">
+                                    <?php echo form_open_multipart('sumbang/add_action');?>
                                         <div class="card-body">
                                             <?php if($this->session->flashdata('msg') == TRUE):?> 
                                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -118,20 +118,23 @@
                                         <?php endif; ?>
                                             <div class="row">
                                                 <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Nama Penyumbang</label>
+                                                         <input type="text" class="form-control" name="nama_penyumbang">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="exampleInputEmail1">Provinsi</label>
-                                                             <select id="propinsi" onchange="loadKabupaten()" name="prov" class="form-control">
+                                                            <label for="exampleInputEmail1">Kabupaten</label>
+                                                             <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control">
+                                                                <option>--Pilih Kabupaten--</option>
                                                                 <?php
-                                                                foreach ($provinsi->result() as $p) {
-                                                                    echo "<option>--Pilih Provinsi--</option>";
-                                                                    echo "<option value='$p->id_prov'>$p->nama_prov</option>";
+                                                                foreach ($kabupaten->result() as $p) {
+                                                                    echo "<option value='$p->id_kabupaten'>$p->nama_kab</option>";
                                                                 }
                                                                 ?>
                                                             </select>
                                                         </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div id="kabupatenArea"></div>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -177,19 +180,15 @@
                                                          <input type="text" class="form-control" name="jumlah">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Nama Penyumbang</label>
-                                                         <input type="text" class="form-control" name="penyumbang">
-                                                    </div>
-                                                </div>
+                                                
                                                 <div class="modal-footer">
+                                                    <input type="file" name="foto">
                                                         <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
                                                         <input type="submit" class="btn btn-primary" value="SUBMIT">
                                                     </div>
                                             </div>
                                         </div>  
-                                    </form>
+                                    <?php echo form_close(); ?>
                                 </div>
                             </div>
                     </div>

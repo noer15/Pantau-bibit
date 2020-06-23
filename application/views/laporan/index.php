@@ -18,11 +18,12 @@
                 var kabupaten = $("#kabupaten").val();
                 $.ajax({
                     type:'GET',
-                    url:"<?php echo site_url('laporan'); ?>/kecamatan",
+                    url:"<?php echo site_url('laporan/kecamatan'); ?>",
                     data:"id=" + kabupaten,
                     success: function(html)
                     { 
                         $("#kecamatanArea").html(html);
+                        $("#kecamatan").html(html);
                         $("#resultKan").hide();
                     }
                 }); 
@@ -32,19 +33,20 @@
                 var kecamatan = $("#kecamatan").val();
                 $.ajax({
                     type:'GET',
-                    url:"<?php echo site_url('sumbang'); ?>/desa",
+                    url:"<?php echo site_url('laporan'); ?>/desa",
                     data:"id=" + kecamatan,
                     success: function(html)
                     { 
                         $("#desaArea").html(html);
+                        $("#desa").show();
                     }
                 }); 
             }
-            
-            
 
-      
+           
+            
         </script>
+       
 <div class="connect-container align-content-stretch d-flex flex-wrap">        
     <div class="page-container">
        <div class="page-header">
@@ -142,7 +144,59 @@
                     </div>
                 </div>
 
+
+                <div class="main-wrapper" style="display: none;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                        <table id="zero-conf" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Kode</th>
+                                                    <th>Nama Barang</th>
+                                                    <th>Harga</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="show_data">
+                                                
+                                            </tbody>
+                                        </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="main-wrapper" id="desa" style="display: none;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                        <table id="zero-conf" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Kabupaten</th>
+                                                    <th>Total Penyumbang</th>
+                                                </tr>
+                                            </thead>
+                                                <div id="desaArea">
+                                                    <tbody>
+                                                        
+                                                    </tbody>
+                                                </div> 
+                                        </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
                 
         </div>
     </div>
 </div>
+ 

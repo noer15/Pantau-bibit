@@ -80,7 +80,7 @@
                                 <div class="card">
                                     
 
-                                    <form action="<?=site_url('sumbang/update') ?>" method="POST">
+                                    <?php echo form_open_multipart('sumbang/update');?>
                                         <div class="card-body">
                                             <?php if($this->session->flashdata('msg') == TRUE):?> 
                                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -125,17 +125,34 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">Nama Penyumbang</label>
-                                                         <input type="text" class="form-control" name="penyumbang" value="<?=$e_sumbang->nama_penyumbang ?>">
+                                                         <input type="text" class="form-control" name="nama_penyumbang" value="<?=$e_sumbang->nama_penyumbang ?>">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Latitude</label>
+                                                         <input type="text" class="form-control" name="lat" value="<?=$e_sumbang->lat ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Longitude</label>
+                                                         <input type="text" class="form-control" name="long" value="<?=$e_sumbang->long ?>">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
+                                                    <img src="<?=base_url('assets/images/'.$e_sumbang->foto) ?>" width="100px;">
+                                                    <input type="file" name="foto">
                                                     <input type="hidden" class="form-control" name="id_sumbangan" value="<?=$e_sumbang->id_sumbangan ?>">
                                                         <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
                                                         <input type="submit" class="btn btn-primary" value="SUBMIT">
                                                     </div>
                                             </div>
                                         </div>  
-                                    </form>
+                                    <?php echo form_close(); ?>
+                                    
                                 </div>
                             </div>
                     </div>
