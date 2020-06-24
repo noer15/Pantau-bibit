@@ -2,8 +2,9 @@
 <style>
     #wilayahArea {width: 100%;}
 </style>
-<script type="text/javascript">
-
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+     
             function loadKabupaten()
             {
                 var propinsi = $("#propinsi").val();
@@ -60,7 +61,20 @@
 
             // script
 
-            
+           
+
+     $(document).ready(function(){  
+      var i=1;  
+      $('#add').click(function(){  
+           i++;  
+           $('#dynamic_field').append('<tr id="row'+i+'"><td><select class="form-control"><option>hjjh</option></select></td><td><input type="text" name="total_nilai[]" placeholder="jumlah" id="total_nilai_'+i+'" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
+      });  
+      
+      $(document).on('click', '.btn_remove', function(){  
+           var button_id = $(this).attr("id");   
+           $('#row'+button_id+'').remove();  
+      });
+  });
            
         </script>
 
@@ -78,10 +92,16 @@
                             </li>
                             <li class="nav-item nav-profile dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user"></i>
+                                     <?php $data = $this->db->get_where('pegawai',['id'=>$this->session->userdata('id')])->row() ?>
+                                    <?php if (empty($data->img_profile)): ?>
+                                        <i class="fa fa-user"></i>
+                                    <?php else: ?>
+                                         <img src="<?=base_url('assets/images/profile/'.$data->img_profile) ?>" alt="profile image" height="42">
+                                    <?php endif ?>
                                     <span style="padding-left: 10px;"><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?=site_url('profile') ?>">Setting</a><hr>
                                     <a class="dropdown-item" href="<?=site_url('logout') ?>">Log out</a>
                                 </div>
                             </li>
@@ -97,7 +117,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Apps</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Sumbangan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Kontribusi</li>
                             </ol>
                         </nav>
                     </div>
@@ -119,8 +139,8 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">Nama Penyumbang</label>
-                                                         <input type="text" class="form-control" name="nama_penyumbang">
+                                                        <label for="exampleInputEmail1">Nama</label>
+                                                         <input type="text" class="form-control" name="nama_penyumbang" required="" placeholder="Masukkan Nama">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -152,9 +172,9 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">Kategori GTPP</label>
+                                                        <label for="exampleInputEmail1">Kategori</label>
                                                          <select class="form-control" name="id_kategori">
-                                                             <option>--Pilih GTPP--</option>
+                                                             <option>--Pilih--</option>
                                                              <?php foreach ($this->db->get('category')->result() as $j): ?>
                                                                  <option value="<?=$j->id_category ?>"><?=$j->name_category ?></option>
                                                              <?php endforeach ?>
@@ -163,29 +183,39 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">Jenis Bibit</label>
-                                                         <select class="form-control" name="id_jenis">
-                                                             <option>--Pilih Bibit--</option>
-                                                             <?php foreach ($this->db->get('jenis')->result() as $j): ?>
-                                                                 <option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option>
-                                                             <?php endforeach ?>
-                                                         </select>
-                                                    </div>
+                                                            <label for="exampleInputEmail1">Alamat</label>
+                                                             <input type="text" class="form-control" name="alamat" required="" placeholder="Masukkan alamat">
+                                                        </div>
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Jumlah Bibit</label>
-                                                         <input type="text" class="form-control" name="jumlah">
-                                                    </div>
-                                                </div>
-                                                
+                                                <div class="col-md-12">              
+                                                <div class="table-responsive">  
+                                                   <table class="table table-bordered" id="dynamic_field">  
+                                                        <tr> 
+                                                             <td>
+                                                                <select class="form-control" name="id_jenis">
+                                                                     <option>--Pilih--</option>
+                                                                     <?php foreach ($this->db->get('jenis')->result() as $j): ?>
+                                                                         <option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option>
+                                                                     <?php endforeach ?>
+                                                                 </select>
+                                                             </td> 
+                                                             <td><input type="text" id="total_nilai_1" name="jumlah" placeholder="jumlah" class="form-control name_list" required/></td> 
+                                                             <td><button type="button" name="add" id="add" class="btn btn-success">+</button></td>  
+                                                        </tr>  
+                                                   </table>  
+                                                   
+                                              </div>
                                                 <div class="modal-footer">
                                                     <input type="file" name="foto">
                                                         <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
                                                         <input type="submit" class="btn btn-primary" value="SUBMIT">
-                                                    </div>
+                                                </div>
+                                            </div>
+
+                                                
+                                                
                                             </div>
                                         </div>  
                                     <?php echo form_close(); ?>
@@ -195,4 +225,4 @@
                 </div>
             </div>
         </div>
-       
+

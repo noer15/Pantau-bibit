@@ -31,45 +31,14 @@
                         
                     </nav>
                 </div>
-        <div class="page-content">
+            <div class="page-content">
                     <div class="page-info">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Apps</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Category</li>
+                                <li class="breadcrumb-item active" aria-current="page">Profile</li>
                             </ol>
                         </nav>
-                        <div class="page-options">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                                Tambah Kategori
-                            </button>
-    
-                                        <!-- Modal -->
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                	
-                                		 <div class="modal-content">
-                                		 	<form action="<?=site_url('category/add_action') ?>" method="POST">
-	                                        <div class="modal-header">
-	                                            <h5 class="modal-title" id="exampleModalCenterTitle">Tambahkan Kategori GTPP</h5>
-	                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                                                <i class="material-icons">close</i>
-	                                            </button>
-	                                        </div>
-	                                        <div class="modal-body">
-	                                            <div class="group-form">
-	                                            	<input type="text" name="category" class="form-control" placeholder="enter category">
-	                                            </div>
-	                                        </div>
-	                                        <div class="modal-footer">
-	                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	                                            <input type="submit" class="btn btn-primary" value="SUBMIT">
-	                                        </div>
-                                	</form>
-	                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="main-wrapper">
                          <div class="row">
@@ -89,44 +58,62 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Jenis Pohon</th>
+                                                    <th>Nama</th>
+                                                    <th>Poto Profile</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             	<?php 
                                             	$no =1;
-                                            	foreach ($category as $k): ?>
+                                            	foreach ($profile as $p): ?>
                                             		<tr>
 	                                                    <td><?=$no++ ?></td>
-	                                                    <td><?=$k->name_category ?></td>
+	                                                    <td><?=$p->nama ?></td>
+                                                        <td>
+                                                            <img src="<?=base_url('assets/images/profile/'.$p->img_profile) ?>" style="width: 50px; height: 50px; border-radius: 50px;">
+                                                        </td>
 	                                                    <td>
-	                                                    	<a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_edit<?=$k->id_category;?>">Edit</a>
-	                                                    	<a href="<?=site_url('category/delete/'.$k->id_category) ?>" class="btn btn-danger btn-sm">Hapus</a>
+	                                                    	<a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_edit<?=$p->id;?>">Edit</a>
+                                                            <a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_password<?=$p->id;?>">Ubah Password</a>
 	                                                    </td>
 	                                                </tr>
                                             	<?php endforeach ?>
                                         </table>
                                     </div>
                                     <!-- edit -->
-                                    <?php
-                                    foreach($category as $i):
-                                        $id=$i->id_category;
-                                        $nama=$i->name_category;
+                                   <?php
+                                    foreach($profile as $i):
+                                        $id=$i->id;
+                                        $nama=$i->nama;
+                                        $password = $i->password;
+                                        $img = $i->img_profile;
                                     ?>
                                         <div class="modal fade" id="modal_edit<?php echo $id;?>"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                      <div class="modal-content">
-                                                        <form action="<?=site_url('category/update') ?>" method="POST">
+                                                        <form action="<?=site_url('profile/update') ?>" method="POST" enctype="multipart/form-data">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Kategori GTPP</h5>
+                                                                
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <i class="material-icons">close</i>
                                                                 </button>
                                                             </div>
-                                                            <div class="modal-body">
+                                                            <div class="modal-body mb-3">
                                                                 <div class="group-form">
-                                                                    <input type="text" name="nama_kategori" class="form-control" placeholder="enter category" value="<?php echo $nama;?>">
+                                                                   <img src="<?=base_url('assets/images/profile/'.$img) ?>" style="width: 100px; height: 100px; border-radius: 50px; display: flex; margin: 0 auto;">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body mb-3">
+                                                                <div class="group-form">
+                                                                    <input type="text" name="nama" class="form-control" placeholder="enter category" value="<?php echo $nama;?>">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="modal-body mb-3">
+                                                                <div class="group-form">
+                                                                    
+                                                                    <input type="file" name="img_profile" class="form-control">
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -139,6 +126,44 @@
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
+
+
+                                    <!-- password -->
+                                    <?php
+                                    foreach($profile as $i):
+                                        $id=$i->id;
+                                        $nama=$i->nama;
+                                        $password = $i->password;
+                                        $img = $i->img_profile;
+                                    ?>
+                                        <div class="modal fade" id="modal_password<?php echo $id;?>"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                     <div class="modal-content">
+                                                        <form action="<?=site_url('profile/update_password') ?>" method="POST" enctype="multipart/form-data">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Password</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <i class="material-icons">close</i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body mb-3">
+                                                                <div class="group-form">
+                                                                    <label class="text">Ubah Password</label>
+                                                                    <input type="text" name="password" class="form-control" placeholder="enter Password new">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?=$id; ?>">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <input type="submit" class="btn btn-primary" value="SUBMIT">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+
                                 </div>     
                             </div>
                         </div>

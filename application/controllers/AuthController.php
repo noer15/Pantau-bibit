@@ -28,6 +28,7 @@ class AuthController extends CI_Controller {
 
                 $session = [
                     'logged_in'     => true,
+                    'id'            => $user->id,
                     'nama'          => $user->nama,
                     'role_id'       => $user->role_id,
                 ];

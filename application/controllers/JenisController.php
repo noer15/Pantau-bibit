@@ -23,16 +23,37 @@ class JenisController extends CI_Controller {
 		$this->render($template);
     }
 
-    public function add_action(){
-        $name = $this->input->post('jenis');
-        $warna = $this->input->post('warna');
+    // public function add_action(){
+    //     $name = $this->input->post('jenis');
+    //     $warna = $this->input->post('warna');
  
-        $data = array(
-            'jenis_name' => $name,
-            'warna' => $warna
-            );
-        $this->Jenis->input_data($data,'jenis');
-        $this->session->set_flashdata('msg', 'Jenis bibit has been added');
+    //     $data = array(
+    //         'jenis_name' => $name,
+    //         'warna' => $warna
+    //         );
+    //     $this->Jenis->input_data($data,'jenis');
+    //     $this->session->set_flashdata('msg', 'Jenis bibit has been added');
+    //     redirect('jenis');
+    // }
+
+    public function add_action(){
+        $this->isPost();
+
+        $config['upload_path']      = './assets/images/icon';
+        $config['allowed_types']    = 'gif|png|jpg|jpeg';
+        $config['encrypt_name']     = TRUE;  
+        $this->load->library('upload',$config);
+
+        $upload  = $_POST;
+        if($_FILES['warna']['name']){
+            if($this->upload->do_upload('warna')){
+                $images = $this->upload->data();
+                $upload['warna'] = $images['file_name'];
+            }
+        }
+
+        $this->Jenis->input_data($upload,'jenis');
+        $this->session->set_flashdata('msg', 'Jenis has been added');
         redirect('jenis');
     }
 
@@ -45,17 +66,36 @@ class JenisController extends CI_Controller {
     }
 
     public function update(){
-        $name = $this->input->post('jenis');
-        $warna = $this->input->post('warna');
- 
-        $data = array(
-            'jenis_name' => $name,
-            'warna' => $warna
-            );
-       $where = array( 'id_jenis' => $_POST['id'] );
-        $this->Jenis->update_data($where,$data,'jenis');
+        $this->isPost();
+
+        $config['upload_path']      = './assets/images/icon';
+        $config['allowed_types']    = 'gif|png|jpg|jpeg';
+        $config['encrypt_name']     = TRUE;  
+        $this->load->library('upload',$config);
+
+        $upload  = $_POST;
+        $old = $this->Jenis->get_by_id($upload['id_jenis'])->row();
+
+        if($_FILES['warna'] != null){
+            if($this->upload->do_upload('warna')){
+                $images = $this->upload->data();
+                $upload['warna'] = $images['file_name'];
+                unlink('./assets/images/icon/'.$old->warna);
+            }
+        }else{
+            $upload['warna']  = $old->warna;
+        }
+
+        $this->Jenis->update($upload);
         $this->session->set_flashdata('msg', 'Jenis has been update');
         redirect('jenis');
+    }
+
+    private function isPost()
+    {
+        if(!$_POST){
+            redirect('jenis');
+        }
     }
 	
 }

@@ -56,6 +56,14 @@ $route['laporan/desa']    				= 'LaporanController/desa';
 
 // account
 $route['account']    					= 'AccountController';
+$route['account/edit/(:num)']    		= 'AccountController/edit/$1';
+$route['account/delete/(:num)']    		= 'AccountController/delete/$1';
+
+
+// profile
+$route['profile']    					= 'ProfileController';
+$route['profile/update']    			= 'ProfileController/update';
+$route['profile/update_password']    	= 'ProfileController/update_password';
 
 
 

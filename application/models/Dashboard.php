@@ -1,6 +1,26 @@
 <?php 
 class Dashboard extends CI_Model
 {
+	public function get_all()
+	{
+		return $this->db
+		->join("kabupaten","kabupaten.id_kabupaten = sumbangan.id_kab")
+		->join("kecamatan","kecamatan.id_kecamatan = sumbangan.id_kec")
+		->join("desa","desa.id_desa = sumbangan.id_desa")
+		->join("category","category.id_category = sumbangan.id_kategori")
+		->join("jenis","jenis.id_jenis = sumbangan.id_jenis")
+		->group_by("jenis_name")
+		->get("sumbangan");
+	}
+
+	public function get_jenis_sum()
+	{
+		return $this->db
+		->select_sum("jumlah")
+		->group_by("id_jenis")
+		->get("sumbangan");
+	}
+
 	// total penyumbang
 	public function total_sumbangan()
 	{

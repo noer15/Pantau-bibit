@@ -1,3 +1,5 @@
+
+</style>
 <div class="connect-container align-content-stretch d-flex flex-wrap">        
     <div class="page-container">
         <div class="page-header">
@@ -11,10 +13,16 @@
                             </li>
                             <li class="nav-item nav-profile dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                     <i class="fa fa-user"></i>
+                                    <?php $data = $this->db->get_where('pegawai',['id'=>$this->session->userdata('id')])->row() ?>
+                                    <?php if (empty($data->img_profile)): ?>
+                                        <i class="fa fa-user"></i>
+                                    <?php else: ?>
+                                         <img src="<?=base_url('assets/images/profile/'.$data->img_profile) ?>" alt="profile image" height="42">
+                                    <?php endif ?>
                                     <span style="padding-left: 10px;"><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?=site_url('profile') ?>">Setting</a><hr>
                                     <a class="dropdown-item" href="<?=site_url('logout') ?>">Log out</a>
                                 </div>
                             </li>
@@ -30,11 +38,11 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Apps</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Sumbang</li>
+                                <li class="breadcrumb-item active" aria-current="page">Kontribusi</li>
                             </ol>
                         </nav>
                         <div class="page-options">
-                            <a href="<?=site_url('sumbang/add') ?>" class="btn btn-primary">Tambah Sumbangan</a>
+                            <a href="<?=site_url('sumbang/add') ?>" class="btn btn-primary">Tambah</a>
                         </div>
                     </div>
                     <div class="main-wrapper">
@@ -54,6 +62,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
+                                                    <th>Nama</th>
                                                     <th>Kabupaten</th>
                                                     <th>Kecamatan</th>
                                                     <th>Desa</th>
@@ -69,6 +78,7 @@
                                                 foreach ($sumbangan as $s): ?>
                                                     <tr>
                                                         <td><?=$no++ ?></td>
+                                                        <td><?=$s->nama_penyumbang ?></td>
                                                         <td><?=$s->nama_kab ?></td>
                                                         <td><?=$s->nama_kec ?></td>
                                                         <td><?=$s->nama_desa ?></td>
@@ -76,8 +86,15 @@
                                                         <td><?=$s->jenis_name ?></td>
                                                         <td><?=$s->jumlah ?></td>
                                                         <td>
-                                                            <a href="<?=site_url('sumbang/edit/'.$s->id_sumbangan) ?>"><span class="material-icons">edit</span></a>
-                                                            <a href="<?=site_url('sumbang/delete/'.$s->id_sumbangan) ?>"><span class="material-icons">delete</span></a>
+                                                            <li class="nav-item nav-profile dropdown" style="list-style: none;">
+                                                                <a class="dropdown-toggle btn btn-info" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                </a>
+                                                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                                    <a class="dropdown-item" href="<?=site_url('sumbang/edit/'.$s->id_sumbangan) ?>">Edit</a>
+                                                                    <a class="dropdown-item" href="<?=site_url('sumbang/delete/'.$s->id_sumbangan) ?>">Hapus</a>
+                                                                </div>
+                                                            </li>
+                                                           
                                                         </td>
                                                     </tr>
                                                 <?php endforeach ?>

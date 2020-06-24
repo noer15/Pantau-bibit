@@ -16,9 +16,8 @@ class Account extends CI_Model
 		return $this->db->get_where($table,$where);
 	}
 
-    public function update_data($where,$data,$table){
-		$this->db->where($where);
-		$this->db->update($table,$data);
-	}
-	
+    public function update_data($update){
+		return $this->db->where('id', $update['id'])
+                        ->update('pegawai', $update);
+	}	
 }

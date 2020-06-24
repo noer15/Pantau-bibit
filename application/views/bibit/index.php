@@ -11,10 +11,16 @@
                             </li>
                             <li class="nav-item nav-profile dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                     <i class="fa fa-user"></i>
+                                     <?php $data = $this->db->get_where('pegawai',['id'=>$this->session->userdata('id')])->row() ?>
+                                    <?php if (empty($data->img_profile)): ?>
+                                        <i class="fa fa-user"></i>
+                                    <?php else: ?>
+                                         <img src="<?=base_url('assets/images/profile/'.$data->img_profile) ?>" alt="profile image" height="42">
+                                    <?php endif ?>
                                     <span style="padding-left: 10px;"><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?=site_url('profile') ?>">Setting</a><hr>
                                     <a class="dropdown-item" href="<?=site_url('logout') ?>">Log out</a>
                                 </div>
                             </li>
@@ -43,7 +49,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     
                                          <div class="modal-content">
-                                            <form action="<?=site_url('jenis/add_action') ?>" method="POST">
+                                            <form action="<?=site_url('jenis/add_action') ?>" method="POST" enctype="multipart/form-data">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="exampleModalCenterTitle">Tambahkan Jenis Bibit</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -52,12 +58,12 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <div class="group-form">
-                                                        <input type="text" name="jenis" class="form-control" placeholder="enter jenis bibit">
+                                                        <input type="text" name="jenis_name" class="form-control" placeholder="enter jenis bibit">
                                                     </div>
                                                 </div><br>
                                                 <div class="modal-body">
                                                     <div class="group-form">
-                                                        <input type="text" name="warna" class="form-control" placeholder="enter warna bibit">
+                                                        <input type="file" name="warna" class="form-control" placeholder="enter warna bibit">
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -88,7 +94,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Jenis Tanaman</th>
-                                                <th>Warna Kordinat</th>
+                                                <th>Icon Kordinat</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -100,7 +106,8 @@
                                                     <td><?=$no++ ?></td>
                                                     <td><?=$j->jenis_name ?></td>
                                                     <td>
-                                                        <div style="height: 25px;width: 25px;background-color:<?=$j->warna ?>;border-radius: 50%;display: inline-block;"></div>
+                                                        <img src="<?=base_url('assets/images/icon/'.$j->warna) ?>" width="30">
+                                                        
                                                     </td>
                                                     <td>
                                                         <a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_edit<?=$j->id_jenis;?>">Edit</a>
@@ -119,7 +126,7 @@
                                         <div class="modal fade" id="modal_edit<?php echo $id;?>"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                      <div class="modal-content">
-                                                        <form action="<?=site_url('jenis/update') ?>" method="POST">
+                                                        <form action="<?=site_url('jenis/update') ?>" method="POST" enctype="multipart/form-data">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="exampleModalCenterTitle">Edit Jenis Bibit</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -128,14 +135,15 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="group-form">
-                                                                    <input type="text" name="jenis" class="form-control" placeholder="enter category" value="<?php echo $nama;?>">
+                                                                    <input type="text" name="jenis_name" class="form-control" placeholder="enter category" value="<?php echo $nama;?>">
                                                                 </div><br>
                                                                 <div class="group-form">
-                                                                    <input type="text" name="warna" class="form-control" placeholder="enter category" value="<?php echo $warna;?>" style="color: <?php echo $warna;?>;">
+                                                                    <img src="<?=base_url('assets/images/icon/'.$warna) ?>" width="30">
+                                                                    <input type="file" name="warna" class="form-control" placeholder="enter category" >
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <input type="hidden" name="id" value="<?=$id; ?>">
+                                                                <input type="hidden" name="id_jenis" value="<?=$id; ?>">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                 <input type="submit" class="btn btn-primary" value="SUBMIT">
                                                             </div>

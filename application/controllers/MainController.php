@@ -19,7 +19,9 @@ class MainController extends CI_Controller {
 	
 	public function index()
 	{
-        $data['view']   = $this->Sumbang->get_all()->result();
+        $data['jumlah']             = $this->Dashboard->get_jenis_sum()->result();
+        $data['chart']              = $this->Dashboard->get_all()->result();
+        $data['view']               = $this->Sumbang->get_all()->result();
         $data['lokasi']             = $this->Sumbang->get_all()->result();
         $data['penyumbang']         = $this->Dashboard->penyumbang()->row();
         $data['desa_perhari']       = $this->Dashboard->desa_perhari()->row();

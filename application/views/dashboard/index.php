@@ -1,3 +1,4 @@
+
  <style type="text/css">
      #map {
         z-index: 50;
@@ -5,7 +6,13 @@
         height: 500px;
     }
     .leaflet-popup-content{width: 100px;}
+    canvas{
+      width:1000px !important;
+      height:350px !important;
+    }
  </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
 
@@ -22,10 +29,18 @@
                             </li>
                             <li class="nav-item nav-profile dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user"></i>
+                                    <?php $data = $this->db->get_where('pegawai',['id'=>$this->session->userdata('id')])->row() ?>
+                                    <?php if (empty($data->img_profile)): ?>
+                                        <i class="fa fa-user"></i>
+                                    <?php else: ?>
+                                         <img src="<?=base_url('assets/images/profile/'.$data->img_profile) ?>" alt="profile image" height="42">
+                                    <?php endif ?>
+                                   
                                     <span style="padding-left: 10px;"><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
+                                
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?=site_url('profile') ?>">Setting</a><hr>
                                     <a class="dropdown-item" href="<?=site_url('logout') ?>">Log out</a>
                                 </div>
                             </li>
@@ -45,7 +60,7 @@
                             </ol>
                         </nav>
                         <div class="page-options">
-                            <a href="<?=site_url('account') ?>" class="btn btn-primary">Account</a>
+                            <a href="<?=site_url('profile') ?>" class="btn btn-primary">Profile</a>
                         </div>
                     </div>
                     <div class="main-wrapper">
@@ -114,15 +129,15 @@
                                         zoomOffset: -1,
                                         accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
                                     }).addTo(mymap);
+
+                                      var icon_ = L.Icon.extend({options: {iconSize:[40, 40], iconAnchor:[12, 20], popupAnchor:[0, -25]}});
+                                        
                                       <?php foreach ($lokasi as $l): ?>
-                                          var circle = L.circle(['<?=$l->latitude ?>','<?=$l->longitude ?>'], {
-                                            color: '<?=$l->warna ?>',
-                                            fillColor: '<?=$l->warna ?>',
-                                            fillOpacity: 0.5,
-                                            radius: 500,
-                                            weight: 10
-                                            }).addTo(mymap);
-                                            circle.bindPopup("<img src='<?=base_url('assets/images/'.$l->foto) ?>' width='50px;' style='margin:0 auto; display:flex;'></br>"+"<table><tr style='font-size:12px;color: #171717;'><td>Nama</td><td>:</td><td><?=$l->nama_penyumbang?></td></tr><tr style='font-size:12px;color: #171717;'><td>Jenis</td><td>:</td><td><?=$l->jenis_name?></td></tr><tr style='font-size:12px;color: #171717;'><td>Jumlah</td><td>:</td><td><?=$l->jumlah?></td></tr></table>");
+                                        var icon = new icon_({iconUrl:"<?=base_url('assets/images/icon/'.$l->warna) ?>"});
+                                        var icon_bibit = icon;
+
+                                        L.marker([<?=$l->latitude?>, <?=$l->longitude?>],{icon:icon_bibit}).addTo(mymap)
+                                            .bindPopup("<img src='<?=base_url('assets/images/'.$l->foto) ?>' width='50px;' style='margin:0 auto; display:flex;'></br>"+"<table><tr style='font-size:12px;color: #171717;'><td>Nama</td><td>:</td><td><?=$l->nama_penyumbang?></td></tr><tr style='font-size:12px;color: #171717;'><td>Jenis</td><td>:</td><td><?=$l->jenis_name?></td></tr><tr style='font-size:12px;color: #171717;'><td>Jumlah</td><td>:</td><td><?=$l->jumlah?></td></tr></table>" ).openPopup();
                                       <?php endforeach ?>
                                      
                                       </script>
@@ -138,6 +153,14 @@
                                 <div class="card">
                                     <div class="alert alert-info no-m" role="alert">
                                         Data dibawah berdasarkan penyumbang dan jenis yang sudah menanam
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Chart Penyumbang</h5>
+                                        <canvas id="myChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -188,15 +211,55 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="page-footer">
                     <div class="row">
                         <div class="col-md-12">
-                            <span class="footer-text">2019 © stacks</span>
+                            <span class="footer-text"><?=date('Y') ?> © Pantau Bibit</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                            <?php foreach ($chart as $c):
+                                  $jenis=strtoupper($c->jenis_name);?>
+                                <?php echo "'" .$jenis ."'," ?>
+                            <?php endforeach?>
+                        ],
+                datasets: [{
+                    label: 'Jumlah',
+                        data: [
+                                <?php foreach ($jumlah as $c):
+                                    $jumlah=$c->jumlah;?>
+                                <?php echo "'" .$jumlah ."'," ?>
+                                <?php endforeach?>
+                            ],
+                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+</script>
+
+            

@@ -52,10 +52,16 @@
                             </li>
                             <li class="nav-item nav-profile dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-user"></i>
+                                     <?php $data = $this->db->get_where('pegawai',['id'=>$this->session->userdata('id')])->row() ?>
+                                    <?php if (empty($data->img_profile)): ?>
+                                        <i class="fa fa-user"></i>
+                                    <?php else: ?>
+                                         <img src="<?=base_url('assets/images/profile/'.$data->img_profile) ?>" alt="profile image" height="42">
+                                    <?php endif ?>
                                     <span style="padding-left: 10px;"><?=$this->session->userdata('nama'); ?></span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="<?=site_url('profile') ?>">Setting</a><hr>
                                     <a class="dropdown-item" href="<?=site_url('logout') ?>">Log out</a>
                                 </div>
                             </li>
@@ -71,7 +77,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Apps</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Sumbangan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Kontribusi</li>
                             </ol>
                         </nav>
                     </div>
@@ -94,7 +100,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">Kategori GTPP</label>
+                                                        <label for="exampleInputEmail1">Kategori</label>
                                                          <select class="form-control" name="id_kategori">
                                                              <option selected="" value="<?=$e_sumbang->id_category?>"><?=$e_sumbang->name_category?></option>
                                                              <?php foreach ($this->db->get('category')->result() as $j): ?>
@@ -124,7 +130,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="exampleInputEmail1">Nama Penyumbang</label>
+                                                        <label for="exampleInputEmail1">Nama</label>
                                                          <input type="text" class="form-control" name="nama_penyumbang" value="<?=$e_sumbang->nama_penyumbang ?>">
                                                     </div>
                                                 </div>
@@ -142,13 +148,23 @@
                                                          <input type="text" class="form-control" name="long" value="<?=$e_sumbang->long ?>">
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Alamat</label>
+                                                         <input type="text" class="form-control" name="alamat" value="<?=$e_sumbang->alamat ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
                                                     <img src="<?=base_url('assets/images/'.$e_sumbang->foto) ?>" width="100px;">
                                                     <input type="file" name="foto">
                                                     <input type="hidden" class="form-control" name="id_sumbangan" value="<?=$e_sumbang->id_sumbangan ?>">
-                                                        <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
+                                                      
                                                         <input type="submit" class="btn btn-primary" value="SUBMIT">
                                                     </div>
+                                                </div>
+                                                    
                                             </div>
                                         </div>  
                                     <?php echo form_close(); ?>

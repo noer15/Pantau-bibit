@@ -8,6 +8,7 @@
             </div>
         </div>
         <?php $this->load->view('layouts/sidebar'); ?>
+        
        <?php $content ?>
         
        <?php $this->load->view('layouts/footer'); ?>

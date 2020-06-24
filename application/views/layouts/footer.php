@@ -19,3 +19,8 @@
 <script src="<?=base_url('assets') ?>/plugins/DataTables/datatables.min.js"></script>
 <script src="<?=base_url('assets') ?>/js/pages/datatables.js"></script>
 
+<!-- chart js -->
+
+
+
+

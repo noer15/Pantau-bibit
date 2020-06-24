@@ -52,7 +52,7 @@ class LaporanController extends CI_Controller {
         }
         echo"</select></div><br>";
         
-        echo json_encode($kecamatan);
+        print_r($kecamatan);
        
 
     }
@@ -73,6 +73,7 @@ class LaporanController extends CI_Controller {
         print_r($data);
     }
 
+    
 
 
 

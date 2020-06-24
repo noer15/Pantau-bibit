@@ -10,7 +10,7 @@
                 <a href="<?=site_url() ?>" >Dashboard</a>
             </li>
             <li>
-                <a href="<?=site_url('sumbang') ?>" >Sumbang Bibit</a>
+                <a href="<?=site_url('sumbang') ?>" >Kontribusi Bibit</a>
             </li>
             <li>
                 <a href="#">Master Data<i class="material-icons has-sub-menu">add</i></a>
@@ -20,6 +20,9 @@
                     </li>
                      <li>
                         <a href="<?=site_url('jenis') ?>">Jenis Bibit</a>
+                    </li>
+                    <li>
+                        <a href="<?=site_url('account') ?>">Account</a>
                     </li>
                 </ul>
             </li>
