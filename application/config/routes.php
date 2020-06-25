@@ -30,6 +30,7 @@ $route['jenis/delete/(:num)']    		= 'JenisController/delete/$1';
 
 // sumbang bibit
 $route['sumbang/testing']    			= 'SumbangController/testing';
+$route['sumbang/abc']    			= 'SumbangController/abc';
 
 
 $route['sumbang']    					= 'SumbangController';

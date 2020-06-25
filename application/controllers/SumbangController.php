@@ -26,13 +26,13 @@ class SumbangController extends CI_Controller {
 
     public function testing()
     {
-        $data = $this->Sumbang->get_all()->result();
-        print_r($data);
+        $this->load->view('test');
     }
 
     public function add()
     {
-        $data['kabupaten'] = $this->db->get('kabupaten');
+        $data['jenis']              = $this->db->get('jenis')->result();
+        $data['kabupaten']          = $this->db->get('kabupaten');
         $template['title']          = 'Tambah Sumbang bibit - Sumbang';
         $template['content']        = $this->load->view('sumbang/v_add',$data);
         $this->render($template);
@@ -81,9 +81,10 @@ class SumbangController extends CI_Controller {
             }
         }
 
-        $this->Sumbang->input_data($upload,'sumbangan');
-        $this->session->set_flashdata('msg', 'Sumbang has been added');
-        redirect('sumbang');
+        // $this->Sumbang->input_data($upload,'sumbangan');
+        // $this->session->set_flashdata('msg', 'Sumbang has been added');
+        // redirect('sumbang');
+        print_r($upload);
     }
 
     public function edit($id){
@@ -133,7 +134,7 @@ class SumbangController extends CI_Controller {
         $kecamatan   = $this->db->get_where('kecamatan',array('id_kabupaten'=>$kabupatenID));
         echo " <div class='form-group'>
                 <label>Kecamatan</label>";
-        echo "<select id='kecamatan' onChange='loadDesa()' class='form-control' name='id_kec'>";
+        echo "<select id='kecamatan' onChange='loadDesa()' class='form-control custom-select' name='id_kec'>";
         echo "<option value='Pilih negara dahulu' data-id='0' >--Pilih Kecamatan --</option>";
         foreach ($kecamatan->result() as $k)
         {
@@ -147,7 +148,7 @@ class SumbangController extends CI_Controller {
         $desa         = $this->db->get_where('desa',array('id_kecamatan'=>$kecamatanID));
         echo " <div class='form-group'>
                 <label>Desa</label>";
-        echo "<select id='wilayah' onChange='loadWilayah()' class='form-control' name='id_desa'>";
+        echo "<select id='wilayah' onChange='loadWilayah()' class='form-control custom-select' name='id_desa'>";
         echo "<option value='Pilih negara dahulu' data-id='0' >--Pilih Desa --</option>";
         foreach ($desa->result() as $d)
         {
@@ -201,5 +202,22 @@ class SumbangController extends CI_Controller {
             redirect('sumbang');
         }
     }
+
+
+
+
+
+
+    function abc()
+    {   
+     foreach ($this->input->post('addmore') as $key => $value)
+        {
+          $this->input->post['sub_name'];
+        }
+        print_r($_POST);
+    }
 	
+
+
+
 }

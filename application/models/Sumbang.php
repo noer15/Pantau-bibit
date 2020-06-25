@@ -61,5 +61,10 @@ class Sumbang extends CI_Model
 		->select_sum('jumlah')
 		->get("sumbangan");
 	}
+
+	public function siswa($data,$table){
+		$this->db->insert($table,$data);
+		return $this->db->insert_id();
+	}
     
 }

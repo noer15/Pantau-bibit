@@ -64,17 +64,17 @@
            
 
      $(document).ready(function(){  
-      var i=1;  
-      $('#add').click(function(){  
-           i++;  
-           $('#dynamic_field').append('<tr id="row'+i+'"><td><select class="form-control"><option>hjjh</option></select></td><td><input type="text" name="total_nilai[]" placeholder="jumlah" id="total_nilai_'+i+'" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');  
-      });  
-      
-      $(document).on('click', '.btn_remove', function(){  
-           var button_id = $(this).attr("id");   
-           $('#row'+button_id+'').remove();  
+          var i=1;  
+          $('#add').click(function(){  
+               i++;  
+               $('#dynamic_field').append('<div class="col-md-12" ><div class="form-row" id="row'+i+'"><div class="form-group col-md-6"><label for="inputState">Pilih Bibit</label><select class="form-control custom-select" name="id_jenis"><option>--Pilih--</option><?php foreach ($this->db->get('jenis')->result() as $j): ?><option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option><?php endforeach ?></select></div><div class="form-group col-md-4"><label for="inputCity">Jumlah</label><input type="text" class="form-control" id="inputCity" name="jumlah" placeholder="Jumlah" required=""></div><div class="form-group col-md-2" ><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove" style="margin: 30px 35px;">X</button></div></div></div>');  
+          });  
+
+          $(document).on('click', '.btn_remove', function(){  
+               var button_id = $(this).attr("id");   
+               $('#row'+button_id+'').remove();  
+          });
       });
-  });
            
         </script>
 
@@ -146,7 +146,7 @@
                                                 <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="exampleInputEmail1">Kabupaten</label>
-                                                             <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control">
+                                                             <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control custom-select">
                                                                 <option>--Pilih Kabupaten--</option>
                                                                 <?php
                                                                 foreach ($kabupaten->result() as $p) {
@@ -173,7 +173,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">Kategori</label>
-                                                         <select class="form-control" name="id_kategori">
+                                                         <select class="form-control custom-select" name="id_kategori" >
                                                              <option>--Pilih--</option>
                                                              <?php foreach ($this->db->get('category')->result() as $j): ?>
                                                                  <option value="<?=$j->id_category ?>"><?=$j->name_category ?></option>
@@ -188,34 +188,38 @@
                                                         </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">              
-                                                <div class="table-responsive">  
-                                                   <table class="table table-bordered" id="dynamic_field">  
-                                                        <tr> 
-                                                             <td>
-                                                                <select class="form-control" name="id_jenis">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-row" id="dynamic_field">
+                                                            <div class="form-group col-md-6">
+                                                                <label for="inputState">Pilih Bibit</label>
+                                                                <select class="form-control custom-select" name="id_jenis">
                                                                      <option>--Pilih--</option>
                                                                      <?php foreach ($this->db->get('jenis')->result() as $j): ?>
                                                                          <option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option>
                                                                      <?php endforeach ?>
                                                                  </select>
-                                                             </td> 
-                                                             <td><input type="text" id="total_nilai_1" name="jumlah" placeholder="jumlah" class="form-control name_list" required/></td> 
-                                                             <td><button type="button" name="add" id="add" class="btn btn-success">+</button></td>  
-                                                        </tr>  
-                                                   </table>  
-                                                   
-                                              </div>
-                                                <div class="modal-footer">
-                                                    <input type="file" name="foto">
-                                                        <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
-                                                        <input type="submit" class="btn btn-primary" value="SUBMIT">
-                                                </div>
-                                            </div>
 
-                                                
-                                                
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="inputCity">Jumlah</label>
+                                                                <input type="text" class="form-control" id="inputCity" name="jumlah" placeholder="Jumlah" required="">
+                                                            </div>
+                                                            <div class="form-group col-md-2" >
+                                                                <button type="button" name="add" id="add" class="btn btn-success" style="margin: 30px 35px;">+</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="modal-footer">
+                                                            <label for="exampleInputEmail1">Pilih Photo</label>
+                                                            <input type="file" name="foto">
+                                                            <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
+                                                            <input type="submit" class="btn btn-primary" value="SUBMIT">
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>  
                                             </div>
                                         </div>  
                                     <?php echo form_close(); ?>
@@ -225,4 +229,5 @@
                 </div>
             </div>
         </div>
+
 
