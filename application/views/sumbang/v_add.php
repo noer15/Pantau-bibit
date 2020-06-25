@@ -144,18 +144,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1">Kabupaten</label>
-                                                             <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control custom-select">
-                                                                <option>--Pilih Kabupaten--</option>
-                                                                <?php
-                                                                foreach ($kabupaten->result() as $p) {
-                                                                    echo "<option value='$p->id_kabupaten'>$p->nama_kab</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
+                                                    <div class="form-group">
+                                                            <label for="exampleInputEmail1">Alamat</label>
+                                                             <input type="text" class="form-control" name="alamat" required="" placeholder="Masukkan alamat">
                                                         </div>
                                                 </div>
+                                                
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -171,6 +165,19 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="exampleInputEmail1">Kabupaten</label>
+                                                             <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control custom-select">
+                                                                <option>--Pilih Kabupaten--</option>
+                                                                <?php
+                                                                foreach ($kabupaten->result() as $p) {
+                                                                    echo "<option value='$p->id_kabupaten'>$p->nama_kab</option>";
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                </div>
+                                                <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="exampleInputEmail1">Kategori</label>
                                                          <select class="form-control custom-select" name="id_kategori" >
@@ -181,12 +188,7 @@
                                                          </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                            <label for="exampleInputEmail1">Alamat</label>
-                                                             <input type="text" class="form-control" name="alamat" required="" placeholder="Masukkan alamat">
-                                                        </div>
-                                                </div>
+                                                
                                             </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
