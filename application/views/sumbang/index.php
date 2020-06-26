@@ -1,5 +1,4 @@
 
-</style>
 <div class="connect-container align-content-stretch d-flex flex-wrap">        
     <div class="page-container">
         <div class="page-header">

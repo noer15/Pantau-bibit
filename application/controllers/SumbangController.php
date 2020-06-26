@@ -66,27 +66,41 @@ class SumbangController extends CI_Controller {
     }
 
     public function add_action(){
-        $this->isPost();
+        $data = array();
+        $data['nama_penyumbang']   = $_POST['nama_penyumbang'];
+        $data['alamat']            = $_POST['alamat'];
+        $data['id_kec']            = $_POST['id_kec'];
+        $data['id_desa']           = $_POST['id_desa'];
+        $data['lat']               = $_POST['lat'];
+        $data['long']              = $_POST['long'];
+        $data['id_kab']            = $_POST['id_kab'];
+        $data['id_kategori']       = $_POST['id_kategori'];
 
-        $config['upload_path']      = './assets/images';
-        $config['allowed_types']    = 'gif|png|jpg|jpeg';
-        $config['encrypt_name']     = TRUE;  
-        $this->load->library('upload',$config);
+        for($i = 0; $i < count($_POST['id_jenis']); $i++){
 
-        $upload  = $_POST;
-        if($_FILES['foto']['name']){
-            if($this->upload->do_upload('foto')){
-                $images = $this->upload->data();
-                $upload['foto'] = $images['file_name'];
+        $data['id_jenis']  = $_POST['id_jenis'][$i];
+        $data['jumlah']    = $_POST['jumlah'][$i];
+
+            $config['upload_path']      = './assets/images';
+            $config['allowed_types']    = 'gif|png|jpg|jpeg';
+            $config['encrypt_name']     = TRUE;  
+            $this->load->library('upload',$config);
+            $upload  = $data;
+            if($_FILES['foto']['name']){
+                if($this->upload->do_upload('foto')){
+                    $images = $this->upload->data();
+                    $upload['foto'] = $images['file_name'];
+                }
             }
+            $this->Sumbang->input_data($upload,'sumbangan');
+            $this->session->set_flashdata('msg', 'Sumbang has been added');
         }
 
-        // $this->Sumbang->input_data($upload,'sumbangan');
-        // $this->session->set_flashdata('msg', 'Sumbang has been added');
-        // redirect('sumbang');
-        print_r($upload);
+        redirect('sumbang');
+            
     }
 
+    
     public function edit($id){
         $where = array('id_sumbangan' => $id);
         $data['provinsi'] = $this->db->get('provinsi');

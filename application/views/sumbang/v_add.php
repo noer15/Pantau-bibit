@@ -67,7 +67,7 @@
           var i=1;  
           $('#add').click(function(){  
                i++;  
-               $('#dynamic_field').append('<div class="col-md-12" ><div class="form-row" id="row'+i+'"><div class="form-group col-md-6"><label for="inputState">Pilih Bibit</label><select class="form-control custom-select" name="id_jenis"><option>--Pilih--</option><?php foreach ($this->db->get('jenis')->result() as $j): ?><option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option><?php endforeach ?></select></div><div class="form-group col-md-4"><label for="inputCity">Jumlah</label><input type="text" class="form-control" id="inputCity" name="jumlah" placeholder="Jumlah" required=""></div><div class="form-group col-md-2" ><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove" style="margin: 30px 35px;">X</button></div></div></div>');  
+               $('#dynamic_field').append('<div class="col-md-12" ><div class="form-row" id="row'+i+'"><div class="form-group col-md-6"><label for="inputState">Pilih Bibit</label><select class="form-control custom-select" name="id_jenis[]"><option>--Pilih--</option><?php foreach ($this->db->get('jenis')->result() as $j): ?><option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option><?php endforeach ?></select></div><div class="form-group col-md-4"><label for="inputCity">Jumlah</label><input type="text" class="form-control" id="inputCity" name="jumlah[]" placeholder="Jumlah" required=""></div><div class="form-group col-md-2" ><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove" style="margin: 30px 35px;">X</button></div></div></div>');  
           });  
 
           $(document).on('click', '.btn_remove', function(){  
@@ -151,18 +151,7 @@
                                                 </div>
                                                 
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div id="kecamatanArea"></div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div id="desaArea"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                    <div id="wilayahArea"></div>
                                             
-                                            </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                         <div class="form-group">
@@ -190,12 +179,24 @@
                                                 </div>
                                                 
                                             </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div id="kecamatanArea"></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div id="desaArea"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                    <div id="wilayahArea"></div>
+                                            
+                                            </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-row" id="dynamic_field">
                                                             <div class="form-group col-md-6">
                                                                 <label for="inputState">Pilih Bibit</label>
-                                                                <select class="form-control custom-select" name="id_jenis">
+                                                                <select class="form-control custom-select" name="id_jenis[]">
                                                                      <option>--Pilih--</option>
                                                                      <?php foreach ($this->db->get('jenis')->result() as $j): ?>
                                                                          <option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option>
@@ -205,7 +206,7 @@
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="inputCity">Jumlah</label>
-                                                                <input type="text" class="form-control" id="inputCity" name="jumlah" placeholder="Jumlah" required="">
+                                                                <input type="text" class="form-control" id="inputCity" name="jumlah[]" placeholder="Jumlah" required="">
                                                             </div>
                                                             <div class="form-group col-md-2" >
                                                                 <button type="button" name="add" id="add" class="btn btn-success" style="margin: 30px 35px;">+</button>

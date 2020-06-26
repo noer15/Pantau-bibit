@@ -58,8 +58,10 @@
                                             <thead>
                                                 <tr>
                                                     <th>No</th>
-                                                    <th>Nama</th>
                                                     <th>Poto Profile</th>
+                                                    <th>Nama</th>
+                                                    <th>Alamat</th>
+                                                    <th>Email</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -69,13 +71,15 @@
                                             	foreach ($profile as $p): ?>
                                             		<tr>
 	                                                    <td><?=$no++ ?></td>
-	                                                    <td><?=$p->nama ?></td>
                                                         <td>
                                                             <img src="<?=base_url('assets/images/profile/'.$p->img_profile) ?>" style="width: 50px; height: 50px; border-radius: 50px;">
                                                         </td>
+                                                        <td><?=$p->nama ?></td>
+                                                        <td><?=$p->alamat ?></td>
+                                                        <td><?=$p->email ?></td>
 	                                                    <td>
-	                                                    	<a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_edit<?=$p->id;?>">Edit</a>
-                                                            <a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_password<?=$p->id;?>">Ubah Password</a>
+	                                                    	<a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_edit<?=$p->id;?>"><i class="fa fa-edit"></i></a>
+                                                            <a href="" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_password<?=$p->id;?>"><i class="fa fa-key"></i></a>
 	                                                    </td>
 	                                                </tr>
                                             	<?php endforeach ?>
@@ -86,6 +90,9 @@
                                     foreach($profile as $i):
                                         $id=$i->id;
                                         $nama=$i->nama;
+                                        $alamat=$i->alamat;
+                                        $email=$i->email;
+                                        $phone_wa=$i->phone_wa;
                                         $password = $i->password;
                                         $img = $i->img_profile;
                                     ?>
@@ -107,6 +114,21 @@
                                                             <div class="modal-body mb-3">
                                                                 <div class="group-form">
                                                                     <input type="text" name="nama" class="form-control" placeholder="enter category" value="<?php echo $nama;?>">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body mb-3">
+                                                                <div class="group-form">
+                                                                    <input type="text" name="alamat" class="form-control" placeholder="enter alamat" value="<?php echo $alamat;?>">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body mb-3">
+                                                                <div class="group-form">
+                                                                    <input type="email" name="email" class="form-control" placeholder="enter email" value="<?php echo $email;?>">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body mb-3">
+                                                                <div class="group-form">
+                                                                    <input type="text" name="phone_wa" class="form-control" placeholder="enter phone WA" value="<?php echo $phone_wa;?>">
                                                                 </div>
                                                             </div>
                                                             

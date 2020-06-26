@@ -72,13 +72,46 @@
                                                         <td><?=$s->pangkat_gol_id ?></td>
                                                         <td><?=$s->role_id ?></td>
                                                         <td>
-                                                            <a href="<?=site_url('account/edit/'.$s->id) ?>"><span class="material-icons">edit</span></a>
+                                                            <a href="#" data-toggle="modal" data-target="#modal_edit<?=$s->id;?>"><span class="material-icons">edit</span></a>
                                                             <a href="<?=site_url('account/delete/'.$s->id) ?>"><span class="material-icons">delete</span></a>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach ?>
                                         </table>
                                     </div>
+
+                                    <!-- modal -->
+                                    <?php
+                                    foreach($account as $i):
+                                        $id=$i->id;
+                                        $role=$i->role_id;
+                                    ?>
+                                        <div class="modal fade" id="modal_edit<?php echo $id;?>"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                     <div class="modal-content">
+                                                        <form action="<?=site_url('account/update') ?>" method="POST">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Account</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <i class="material-icons">close</i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="group-form">
+                                                                    <input type="text" name="role_id" class="form-control" placeholder="enter category" value="<?php echo $role;?>">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <input type="hidden" name="id" value="<?=$id; ?>">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                <input type="submit" class="btn btn-primary" value="SUBMIT">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+
                                 </div>     
                             </div>
                         </div>

@@ -18,6 +18,7 @@ class Sumbang extends CI_Model
 
 	public function input_data($data,$table){
 		$this->db->insert($table,$data);
+		return $this->db->insert_id();
 	}
 
 	public function get_by_id($id){

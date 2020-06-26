@@ -65,12 +65,17 @@ class LaporanController extends CI_Controller {
         echo json_encode($desa);
     }
 
-    
+    public function getKecamatan($kabId){
+        $kec    = $this->db->query("SELECT * from kecamatan where id_kabupaten=".$kabId)->result_array();
+        print_r( json_encode($kec) );
+    }
 
     public function testing()
     {
-        $data = $this->Laporan->total_perkab()->result();
-        print_r($data);
+        $data['kabupaten']          = $this->db->get('kabupaten')->result();
+        $template['title']          = 'Aplikasi Pantau Bibit - Laporan';
+        $template['content']        = $this->load->view('laporan/testing',$data);
+        $this->render($template);
     }
 
     

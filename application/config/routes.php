@@ -54,9 +54,14 @@ $route['laporan/kabupaten']    			= 'LaporanController/kabupaten';
 $route['laporan/kecamatan']    			= 'LaporanController/kecamatan';
 $route['laporan/desa']    				= 'LaporanController/desa';
 
+$route['laporan/testing']    				= 'LaporanController/testing';
+$route['laporan/getKecamatan/(:num)']    			= 'LaporanController/getKecamatan/$1';
+
+
 
 // account
 $route['account']    					= 'AccountController';
+$route['account/update']    					= 'AccountController/update';
 $route['account/edit/(:num)']    		= 'AccountController/edit/$1';
 $route['account/delete/(:num)']    		= 'AccountController/delete/$1';
 

@@ -69,14 +69,13 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title"><?=$total_sumbangan->jumlah ?><span class="stats-change stats-change-success">+ 
-                                                <?php $tes = $perhari_sumbangan->jumlah ?>
-                                                <?=$sumbangan = $tes === NULL ? '0' : $tes   ?>
-                                                </span></h5>
+                                            <h5 class="card-title" id="count1"></h5>
                                             <p class="stats-text">Total Jumlah Sumbangan</p>
                                         </div>
                                         <div class="stats-icon change-success">
-                                            <i class="material-icons">trending_up</i>
+                                            + 
+                                                <?php $tes = $perhari_sumbangan->jumlah ?>
+                                                <?=$sumbangan = $tes === NULL ? '0' : $tes   ?>
                                         </div>
                                     </div>
                                 </div>
@@ -85,14 +84,11 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title">
-                                                <!--  -->
-                                                <?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?>
-                                                <span class="stats-change stats-change-success">+ <?=$kab_perhari->kab ?></span></h5>
+                                            <h5 class="card-title" id="count2"></h5>
                                             <p class="stats-text">Total Jumlah Kabupaten</p>
                                         </div>
                                         <div class="stats-icon change-success">
-                                            <i class="material-icons">trending_up</i>
+                                            + <?=$kab_perhari->kab ?>
                                         </div>
                                     </div>
                                 </div>
@@ -101,11 +97,11 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title"><?=$this->db->get('sumbangan')->num_rows() ?><span class="stats-change stats-change-success">+ <?=$desa_perhari->desa ?></span></h5>
+                                            <h5 class="card-title" id="count3"></h5>
                                             <p class="stats-text">Total Jumlah Desa</p>
                                         </div>
                                         <div class="stats-icon change-success">
-                                            <i class="material-icons">trending_up</i>
+                                            + <?=$desa_perhari->desa ?>
                                         </div>
                                     </div>
                                 </div>
@@ -199,9 +195,7 @@
                                                         <td><?=$s->nama_desa ?></td>
                                                         <td><?=$s->name_category ?></td>
                                                         <td>
-                                                            <span style="background-color:<?=$s->warna?>;padding: 3px;color: #fff; border-radius: 4px; font-size: 12px;">
-                                                                <?=$s->jenis_name ?>
-                                                            </span>
+                                                            <img src="<?=base_url('assets/images/icon/'.$s->warna) ?>" width="50">
                                                         </td>
                                                         <td><?=$s->jumlah ?></td>
                                                     </tr>
@@ -224,7 +218,10 @@
                 </div>
             </div>
         </div>
-        <script>
+
+
+
+<script>
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -260,6 +257,28 @@
                 }
             }
         });
+
+        // couner
+        document.addEventListener("DOMContentLoaded", () => {
+             function counter(id, start, end, duration) {
+              let obj = document.getElementById(id),
+               current = start,
+               range = end - start,
+               increment = end > start ? 1 : -1,
+               step = Math.abs(Math.floor(duration / range)),
+               timer = setInterval(() => {
+                current += increment;
+                obj.textContent = current;
+                if (current == end) {
+                 clearInterval(timer);
+                }
+               }, step);
+             }
+             counter("count1", 0, <?=$total_sumbangan->jumlah ?>);
+             counter("count2", 0, <?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?>, 3000);
+             counter("count3", 0, <?=$this->db->get('sumbangan')->num_rows() ?>, 3000);
+            });
+
 </script>
 
             
