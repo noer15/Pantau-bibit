@@ -10,7 +10,18 @@
       width:1000px !important;
       height:350px !important;
     }
+.stats-card{border-right: none !important}
+
+#slideshow > div { 
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
+    right: 10px; 
+    bottom: 10px; 
+}
  </style>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
@@ -69,7 +80,7 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title" id="count1"></h5>
+                                            <h5 class="card-title counter-count"><?=$total_sumbangan->jumlah ?></h5>
                                             <p class="stats-text">Total Jumlah Sumbangan</p>
                                         </div>
                                         <div class="stats-icon change-success">
@@ -82,14 +93,34 @@
                             </div>
                             <div class="col-lg-4 col-md-12">
                                 <div class="card card-transparent stats-card">
-                                    <div class="card-body">
-                                        <div class="stats-info">
-                                            <h5 class="card-title" id="count2"></h5>
-                                            <p class="stats-text">Total Jumlah Kabupaten</p>
-                                        </div>
-                                        <div class="stats-icon change-success">
-                                            + <?=$kab_perhari->kab ?>
-                                        </div>
+                                        <div id="slideshow">
+                                           <div class="card-body bg-info">
+                                                 <div class="stats-info">
+                                                <h5 class="card-title "><?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?></h5>
+                                                <p class="stats-text">Kab. Cirebon</p>
+                                                </div>
+                                                <div class="stats-icon change-success">
+                                                    + <?=$kab_perhari->kab ?>
+                                                </div>
+                                           </div>
+                                           <div class="card-body bg-success">
+                                                 <div class="stats-info">
+                                                <h5 class="card-title"><?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?></h5>
+                                                <p class="stats-text">Kab. Sumedang</p>
+                                                </div>
+                                                <div class="stats-icon change-success">
+                                                    + <?=$kab_perhari->kab ?>
+                                                </div>
+                                           </div>
+                                           <div class="card-body">
+                                                 <div class="stats-info">
+                                                <h5 class="card-title"><?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?></h5>
+                                                <p class="stats-text">Kab. Bandung</p>
+                                                </div>
+                                                <div class="stats-icon change-success">
+                                                    + <?=$kab_perhari->kab ?>
+                                                </div>
+                                           </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,8 +128,8 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title" id="count3"></h5>
-                                            <p class="stats-text">Total Jumlah Desa</p>
+                                            <h5 class="card-title counter-count"><?=$this->db->get('sumbangan')->num_rows() ?></h5>
+                                            <p class="stats-text">Total Jumlah Lokasi</p>
                                         </div>
                                         <div class="stats-icon change-success">
                                             + <?=$desa_perhari->desa ?>
@@ -200,6 +231,7 @@
                                                         <td><?=$s->jumlah ?></td>
                                                     </tr>
                                                 <?php endforeach ?>
+                                            </tbody>
                                         </table>
                                     </div>  
                                     </div>
@@ -221,7 +253,18 @@
 
 
 
+
 <script>
+    $("#slideshow > div:gt(0)").hide();
+    setInterval(function() { 
+      $('#slideshow > div:first')
+        .fadeOut(1000)
+        .next()
+        .fadeIn(1000)
+        .end()
+        .appendTo('#slideshow');
+    },  3000);
+
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -258,26 +301,18 @@
             }
         });
 
-        // couner
-        document.addEventListener("DOMContentLoaded", () => {
-             function counter(id, start, end, duration) {
-              let obj = document.getElementById(id),
-               current = start,
-               range = end - start,
-               increment = end > start ? 1 : -1,
-               step = Math.abs(Math.floor(duration / range)),
-               timer = setInterval(() => {
-                current += increment;
-                obj.textContent = current;
-                if (current == end) {
-                 clearInterval(timer);
-                }
-               }, step);
-             }
-             counter("count1", 0, <?=$total_sumbangan->jumlah ?>);
-             counter("count2", 0, <?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?>, 3000);
-             counter("count3", 0, <?=$this->db->get('sumbangan')->num_rows() ?>, 3000);
-            });
+       $('.counter-count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 9000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+        
 
 </script>
 

@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'pantau_bibit',
+	'hostname' => 'point-of-sales.ct1z8ptclyeg.ap-southeast-1.rds.amazonaws.com',
+	'username' => 'admin',
+	'password' => '123456Seventeen',
+	'database' => 'pantaubibit',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
