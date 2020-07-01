@@ -74,5 +74,33 @@ class Laporan extends CI_Model
 		->select_sum('jumlah')
 		->get("sumbangan");
 	}
+
+	//Data perwilayah
+	public function getByKabupaten($id)
+	{
+		return $this->db
+		->join('kabupaten','kabupaten.id_kabupaten=sumbangan.id_kab')
+		->join('jenis','jenis.id_jenis=sumbangan.id_jenis')
+		->where('kabupaten.id_kabupaten', $id)
+		->get('sumbangan');
+	}
+
+	public function getByKecamatan($id)
+	{
+		return $this->db
+		->join('kecamatan','kecamatan.id_kecamatan=sumbangan.id_kec')
+		->join('jenis','jenis.id_jenis=sumbangan.id_jenis')
+		->where('kecamatan.id_kecamatan', $id)
+		->get('sumbangan');
+	}
+
+	public function getByDesa($id)
+	{
+		return $this->db
+		->join('desa','desa.id_desa=sumbangan.id_desa')
+		->join('jenis','jenis.id_jenis=sumbangan.id_jenis')
+		->where('desa.id_desa', $id)
+		->get('sumbangan');
+	}
     
 }

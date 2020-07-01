@@ -46,18 +46,14 @@ class LaporanController extends CI_Controller {
         echo " <div class='form-group'>
                 <label>Kecamatan</label>";
         echo "<select id='kecamatan' onChange='loadDesa()' class='form-control' name='kec'>";
+        echo "<option value='0'> < ALL ></option>";
         foreach ($kecamatan->result() as $k)
         {
             echo "<option value='$k->id_kecamatan'>$k->nama_kec</option>";
         }
         echo"</select></div><br>";
-        
-        print_r(json_encode($kecamatan));
-       
 
     }
-    
-
 
     public function desa(){
         $kecamatanID  = $_GET['id'];
@@ -65,9 +61,22 @@ class LaporanController extends CI_Controller {
         echo json_encode($desa);
     }
 
-    public function getKecamatan($kabId){
-        $kec    = $this->db->query("SELECT * from kecamatan where id_kabupaten=".$kabId)->result_array();
-        print_r(json_encode($kec) );
+    // ambil data
+    public function getKabupaten($id){
+        $kab    = $this->Laporan->getByKabupaten($id)->result_array();
+        echo json_encode($kab);
+    }
+
+    public function getKecamatan($id){
+        $kec    = $this->Laporan->getByKecamatan($id)->result_array();
+        echo json_encode($kec);
+    }
+
+    public function getDesa($id){
+        $desa    = $this->Laporan->getByDesa($id)->result_array();
+        $this->output->set_content_type('application/json')
+                     ->set_output(json_encode($desa))
+                     ->display_();
     }
 
     public function testing()
@@ -77,10 +86,4 @@ class LaporanController extends CI_Controller {
         $template['content']        = $this->load->view('laporan/testing',$data);
         $this->render($template);
     }
-
-    
-
-
-
-	
 }

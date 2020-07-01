@@ -17,7 +17,6 @@ $route['category/update']    			= 'CategoryController/update';
 $route['category/delete/(:num)']   		= 'CategoryController/delete/$1';
 
 
-
 // jenis bibit
 $route['jenis']    						= 'JenisController';
 $route['jenis/update']    				= 'JenisController/update';
@@ -25,12 +24,9 @@ $route['jenis/add_action']    			= 'JenisController/add_action';
 $route['jenis/delete/(:num)']    		= 'JenisController/delete/$1';
 
 
-
-
-
 // sumbang bibit
 $route['sumbang/testing']    			= 'SumbangController/testing';
-$route['sumbang/abc']    			= 'SumbangController/abc';
+$route['sumbang/abc']    			    = 'SumbangController/abc';
 
 
 $route['sumbang']    					= 'SumbangController';
@@ -54,14 +50,16 @@ $route['laporan/kabupaten']    			= 'LaporanController/kabupaten';
 $route['laporan/kecamatan']    			= 'LaporanController/kecamatan';
 $route['laporan/desa']    				= 'LaporanController/desa';
 
-$route['laporan/testing']    				= 'LaporanController/testing';
-$route['laporan/getKecamatan/(:num)']    			= 'LaporanController/getKecamatan/$1';
+$route['laporan/testing']    			= 'LaporanController/testing';
+$route['laporan/getKabupaten/(:num)']   = 'LaporanController/getKabupaten/$1';
+$route['laporan/getKecamatan/(:num)']   = 'LaporanController/getKecamatan/$1';
+$route['laporan/getDesa/(:num)']        = 'LaporanController/getDesa/$1';
 
 
 
 // account
 $route['account']    					= 'AccountController';
-$route['account/update']    					= 'AccountController/update';
+$route['account/update']    			= 'AccountController/update';
 $route['account/edit/(:num)']    		= 'AccountController/edit/$1';
 $route['account/delete/(:num)']    		= 'AccountController/delete/$1';
 
