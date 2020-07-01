@@ -13,6 +13,18 @@ class Dashboard extends CI_Model
 		->get("sumbangan");
 	}
 
+	public function flip_kab()
+	{
+		return $this->db
+		->join("kabupaten","kabupaten.id_kabupaten = sumbangan.id_kab")
+		->join("kecamatan","kecamatan.id_kecamatan = sumbangan.id_kec")
+		->join("desa","desa.id_desa = sumbangan.id_desa")
+		->join("category","category.id_category = sumbangan.id_kategori")
+		->join("jenis","jenis.id_jenis = sumbangan.id_jenis")
+		->group_by("kabupaten.nama_kab")
+		->get("sumbangan");
+	}
+
 	public function get_jenis_sum()
 	{
 		return $this->db

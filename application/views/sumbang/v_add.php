@@ -122,112 +122,115 @@
                         </nav>
                     </div>
                     <div class="main-wrapper">
-                            <div class="col">
-                                <div class="card">
-                                    
+                        <div class="col">
+                            <div class="card">
+                                
 
-                                    <?php echo form_open_multipart('sumbang/add_action');?>
-                                        <div class="card-body">
-                                            <?php if($this->session->flashdata('msg') == TRUE):?> 
-                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                                <strong>Success!</strong> <?php echo $this->session->flashdata('msg'); ?>
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                <?php echo form_open_multipart('sumbang/add_action');?>
+                                    <div class="card-body">
+                                        <?php if($this->session->flashdata('msg') == TRUE):?> 
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong>Success!</strong> <?php echo $this->session->flashdata('msg'); ?>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    <?php endif; ?>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Nama</label>
+                                                     <input type="text" class="form-control" name="nama_penyumbang" required="" placeholder="Masukkan Nama">
+                                                </div>
                                             </div>
-                                        <?php endif; ?>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Nama</label>
-                                                         <input type="text" class="form-control" name="nama_penyumbang" required="" placeholder="Masukkan Nama">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                        <label for="exampleInputEmail1">Alamat</label>
+                                                         <input type="text" class="form-control" name="alamat" required="" placeholder="Masukkan alamat">
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                            <label for="exampleInputEmail1">Alamat</label>
-                                                             <input type="text" class="form-control" name="alamat" required="" placeholder="Masukkan alamat">
-                                                        </div>
-                                                </div>
-                                                
                                             </div>
                                             
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="exampleInputEmail1">Kabupaten</label>
+                                                         <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control custom-select">
+                                                            <option>--Pilih Kabupaten--</option>
+                                                            <?php
+                                                            foreach ($kabupaten->result() as $p) {
+                                                                echo "<option value='$p->id_kabupaten'>$p->nama_kab</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Kategori</label>
+                                                     <select class="form-control custom-select" name="id_kategori" >
+                                                         <option>--Pilih--</option>
+                                                         <?php foreach ($this->db->get('category')->result() as $j): ?>
+                                                             <option value="<?=$j->id_category ?>"><?=$j->name_category ?></option>
+                                                         <?php endforeach ?>
+                                                     </select>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div id="kecamatanArea"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="desaArea"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                                <div id="wilayahArea"></div>
+                                        
+                                        </div>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1">Kabupaten</label>
-                                                             <select id="kabupaten" onchange="loadKecamatan()" name="id_kab" class="form-control custom-select">
-                                                                <option>--Pilih Kabupaten--</option>
-                                                                <?php
-                                                                foreach ($kabupaten->result() as $p) {
-                                                                    echo "<option value='$p->id_kabupaten'>$p->nama_kab</option>";
-                                                                }
-                                                                ?>
-                                                            </select>
+                                                    <div class="form-row" id="dynamic_field">
+                                                        <div class="form-group col-md-6">
+                                                            <label for="inputState">Pilih Bibit</label>
+                                                            <select class="form-control custom-select" name="id_jenis[]">
+                                                                 <option>--Pilih--</option>
+                                                                 <?php foreach ($this->db->get('jenis')->result() as $j): ?>
+                                                                     <option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option>
+                                                                 <?php endforeach ?>
+                                                             </select>
+
                                                         </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="inputCity">Jumlah</label>
+                                                            <input type="text" class="form-control" id="inputCity" name="jumlah[]" placeholder="Jumlah" required="">
+                                                        </div>
+                                                        <div class="form-group col-md-2" >
+                                                            <button type="button" name="add" id="add" class="btn btn-success" style="margin: 30px 35px;">+</button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Kategori</label>
-                                                         <select class="form-control custom-select" name="id_kategori" >
-                                                             <option>--Pilih--</option>
-                                                             <?php foreach ($this->db->get('category')->result() as $j): ?>
-                                                                 <option value="<?=$j->id_category ?>"><?=$j->name_category ?></option>
-                                                             <?php endforeach ?>
-                                                         </select>
+                                                    <div class="modal-footer">
+                                                        <label for="exampleInputEmail1">Pilih Photo</label>
+                                                        <input type="file" name="foto">
+                                                        <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
+                                                        <input type="submit" class="btn btn-primary" value="SUBMIT">
                                                     </div>
                                                 </div>
                                                 
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div id="kecamatanArea"></div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div id="desaArea"></div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                    <div id="wilayahArea"></div>
-                                            
-                                            </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-row" id="dynamic_field">
-                                                            <div class="form-group col-md-6">
-                                                                <label for="inputState">Pilih Bibit</label>
-                                                                <select class="form-control custom-select" name="id_jenis[]">
-                                                                     <option>--Pilih--</option>
-                                                                     <?php foreach ($this->db->get('jenis')->result() as $j): ?>
-                                                                         <option value="<?=$j->id_jenis ?>"><?=$j->jenis_name ?></option>
-                                                                     <?php endforeach ?>
-                                                                 </select>
-
-                                                            </div>
-                                                            <div class="form-group col-md-4">
-                                                                <label for="inputCity">Jumlah</label>
-                                                                <input type="text" class="form-control" id="inputCity" name="jumlah[]" placeholder="Jumlah" required="">
-                                                            </div>
-                                                            <div class="form-group col-md-2" >
-                                                                <button type="button" name="add" id="add" class="btn btn-success" style="margin: 30px 35px;">+</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="modal-footer">
-                                                            <label for="exampleInputEmail1">Pilih Photo</label>
-                                                            <input type="file" name="foto">
-                                                            <a href="<?=site_url('sumbang') ?>" class="btn btn-secondary">Cancel</a>
-                                                            <input type="submit" class="btn btn-primary" value="SUBMIT">
-                                                        </div>
-                                                    </div>
-                                                    
-                                                </div>  
-                                            </div>
-                                        </div>  
-                                    <?php echo form_close(); ?>
-                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>  
+                                <?php echo form_close(); ?>
+                                <p>
+                                    * ) Hubungi admin <span><a href="https://api.whatsapp.com/send?phone=62 8122394631&text=Saya%20ingin%20menambahkan%20jenis%20tanaman%20..." target="_blank">disini</a></span> jika jenis tanaman tidak tersedia
+                                </p>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

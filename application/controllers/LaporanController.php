@@ -52,7 +52,7 @@ class LaporanController extends CI_Controller {
         }
         echo"</select></div><br>";
         
-        print_r($kecamatan);
+        print_r(json_encode($kecamatan));
        
 
     }
@@ -67,7 +67,7 @@ class LaporanController extends CI_Controller {
 
     public function getKecamatan($kabId){
         $kec    = $this->db->query("SELECT * from kecamatan where id_kabupaten=".$kabId)->result_array();
-        print_r( json_encode($kec) );
+        print_r(json_encode($kec) );
     }
 
     public function testing()

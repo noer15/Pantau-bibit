@@ -20,6 +20,7 @@ class MainController extends CI_Controller {
 	public function index()
 	{
         $data['jumlah']             = $this->Dashboard->get_jenis_sum()->result();
+        $data['kab_flip']           = $this->Dashboard->flip_kab()->result();
         $data['chart']              = $this->Dashboard->get_all()->result();
         $data['view']               = $this->Sumbang->get_all()->result();
         $data['lokasi']             = $this->Sumbang->get_all()->result();

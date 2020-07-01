@@ -1,1 +1,28 @@
 /* Write your custom CSS here */
+.card-penyumbang {
+    background-color: rgb(211, 238, 227);
+    border: 1px solid rgb(145, 220, 189);
+    padding: 1rem;
+    border-radius: .5rem;
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+}
+
+.card-perkabupaten {
+    background-color: rgb(210, 236, 240);
+    border: 1px solid rgb(145, 211, 220);
+    padding: 1rem;
+    border-radius: .5rem;
+    height: 100%;
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+}
+
+.card-lokasi {
+    background-color: rgba(236, 208, 123, 0.58);
+    border: 1px solid #FFC107;
+    padding: 1rem;
+    border-radius: .5rem;
+    -webkit-box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -1px rgba(0,0,0,.06);
+}

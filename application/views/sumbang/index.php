@@ -45,7 +45,6 @@
                         </div>
                     </div>
                     <div class="main-wrapper">
-                         <div class="row">
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body card-transactions">
@@ -101,7 +100,6 @@
                                     </div>
                                 </div>     
                             </div>
-                        </div>
                     </div>
         </div>
     </div>

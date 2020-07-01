@@ -1795,7 +1795,6 @@ h6 {
 }
 
 .badge {
-	padding: 7px 12px;
 	font-weight: 700;
 	font-size: 75%!important
 }
@@ -1806,9 +1805,10 @@ h6 {
 
 .btn .badge {
 	margin-left: 10px
+	color:#fff;
 }
 
-.badge.badge-primary {
+/*.badge.badge-primary {
 	color: #fff;
 	background: #61d39f
 }
@@ -1846,7 +1846,7 @@ h6 {
 .badge.badge-dark {
 	color: #d4d4d4;
 	background: #4a4a4a
-}
+}*/
 
 .breadcrumb {
 	padding: 15px 25px;

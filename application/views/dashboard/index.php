@@ -10,15 +10,14 @@
       width:1000px !important;
       height:350px !important;
     }
-.stats-card{border-right: none !important}
-
-#slideshow > div { 
-    position: absolute; 
-    top: 10px; 
-    left: 10px; 
-    right: 10px; 
-    bottom: 10px; 
-}
+    .stats-card{border-right: none !important}
+    #slideshow > div { 
+        position: absolute; 
+        top: 10px; 
+        left: 10px; 
+        right: 10px; 
+        bottom: 10px; 
+    }
  </style>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
@@ -77,63 +76,82 @@
                     <div class="main-wrapper">
                         <div class="row stats-row">
                             <div class="col-lg-4 col-md-12">
-                                <div class="card card-transparent stats-card">
+                                <div class="card-penyumbang">
                                     <div class="card-body">
-                                        <div class="stats-info">
-                                            <h5 class="card-title counter-count"><?=$total_sumbangan->jumlah ?></h5>
-                                            <p class="stats-text">Total Jumlah Sumbangan</p>
+                                        <div class="stats-info mb-3">
+                                            <h4 class="text-title"><b>Jawa Barat</b>
+                                                <span class="badge badge-success float-right ml-3 font-weight-bold">
+                                            + <?php $tes = $perhari_sumbangan->jumlah ?>
+                                                <?=$sumbangan = $tes === NULL ? '0' : $tes   ?></span>
+                                                <span class="counter-count  float-right font-weight-bold"><?=$total_sumbangan->jumlah ?></span>
+                                            </h4>
+                                        
                                         </div>
-                                        <div class="stats-icon change-success">
-                                            + 
-                                                <?php $tes = $perhari_sumbangan->jumlah ?>
-                                                <?=$sumbangan = $tes === NULL ? '0' : $tes   ?>
+                                        <div class="stats-info">
+                                            <h5 class="text-title"><b>Jawa Barat</b>
+                                                <span class="badge badge-success float-right ml-3 font-weight-bold">
+                                            + <?php $tes = $perhari_sumbangan->jumlah ?>
+                                                <?=$sumbangan = $tes === NULL ? '0' : $tes   ?></span>
+                                                <span class="counter-count  float-right font-weight-bold"><?=$total_sumbangan->jumlah ?></span>
+                                            </h5>
+                                        
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12">
-                                <div class="card card-transparent stats-card">
-                                        <div id="slideshow">
-                                           <div class="card-body bg-info">
-                                                 <div class="stats-info">
-                                                <h5 class="card-title "><?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?></h5>
-                                                <p class="stats-text">Kab. Cirebon</p>
+                                <div class="card-perkabupaten">
+                                    <div id="slideshow">
+                                        <?php foreach ($kab_flip as $key): ?>
+                                            <div class="card-body">
+                                                <div class="stats-info mb-3">
+                                                    <h4 class="text-title"><b><?=$key->nama_kab ?></b>
+                                                        <span class="badge badge-success float-right ml-3 font-weight-bold">
+                                                    + <?php $tes = $perhari_sumbangan->jumlah ?>
+                                                        <?=$sumbangan = $tes === NULL ? '0' : $tes   ?></span>
+                                                        <span class="float-right font-weight-bold">
+                                                            <?php $data = $this->db->query("SELECT SUM(jumlah) AS total FROM sumbangan WHERE id_kab ='$key->id_kab'")->row() ?>
+                                                            <?=$data->total ?>
+                                                        </span>
+                                                    </h4>
+                                                
                                                 </div>
-                                                <div class="stats-icon change-success">
-                                                    + <?=$kab_perhari->kab ?>
+                                                <div class="stats-info">
+                                                    <h5 class="text-title"><b><?=$key->nama_kab ?></b>
+                                                        <span class="badge badge-success float-right ml-3 font-weight-bold">
+                                                    + <?php $tes = $perhari_sumbangan->jumlah ?>
+                                                        <?=$sumbangan = $tes === NULL ? '0' : $tes   ?></span>
+                                                        <span class="float-right font-weight-bold"><?=$total_sumbangan->jumlah ?></span>
+                                                    </h5>
+                                                
                                                 </div>
-                                           </div>
-                                           <div class="card-body bg-success">
-                                                 <div class="stats-info">
-                                                <h5 class="card-title"><?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?></h5>
-                                                <p class="stats-text">Kab. Sumedang</p>
-                                                </div>
-                                                <div class="stats-icon change-success">
-                                                    + <?=$kab_perhari->kab ?>
-                                                </div>
-                                           </div>
-                                           <div class="card-body">
-                                                 <div class="stats-info">
-                                                <h5 class="card-title"><?=$this->db->query("SELECT COUNT(id_kab) FROM sumbangan GROUP BY id_kab")->num_rows()?></h5>
-                                                <p class="stats-text">Kab. Bandung</p>
-                                                </div>
-                                                <div class="stats-icon change-success">
-                                                    + <?=$kab_perhari->kab ?>
-                                                </div>
-                                           </div>
+                                            </div> 
+                                        <?php endforeach ?>
+                                          
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-12">
-                                <div class="card card-transparent stats-card">
+                                <div class="card-lokasi">
                                     <div class="card-body">
+
+                                        <div class="stats-info mb-3">
+                                            <h4 class="text-title"><b>Jumlah Lokasi</b>
+                                                <span class="badge badge-warning float-right ml-3 font-weight-bold">
+                                            + <?=$desa_perhari->desa ?></span>
+                                                <span class="counter-count  float-right font-weight-bold"><?=$this->db->get('sumbangan')->num_rows() ?></span>
+                                            </h4>
+                                        
+                                        </div>
                                         <div class="stats-info">
-                                            <h5 class="card-title counter-count"><?=$this->db->get('sumbangan')->num_rows() ?></h5>
-                                            <p class="stats-text">Total Jumlah Lokasi</p>
+                                            <h5 class="text-title"><b>Jumlah Lokasi</b>
+                                                <span class="badge badge-warning float-right ml-3 font-weight-bold">
+                                            + <?=$desa_perhari->desa ?></span>
+                                                <span class="counter-count  float-right font-weight-bold"><?=$this->db->get('sumbangan')->num_rows() ?></span>
+                                            </h5>
+                                        
                                         </div>
-                                        <div class="stats-icon change-success">
-                                            + <?=$desa_perhari->desa ?>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +175,7 @@
                                         accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
                                     }).addTo(mymap);
 
-                                      var icon_ = L.Icon.extend({options: {iconSize:[40, 40], iconAnchor:[12, 20], popupAnchor:[0, -25]}});
+                                      var icon_ = L.Icon.extend({options: {iconSize:[15, 15], iconAnchor:[12, 20], popupAnchor:[0, -25]}});
                                         
                                       <?php foreach ($lokasi as $l): ?>
                                         var icon = new icon_({iconUrl:"<?=base_url('assets/images/icon/'.$l->warna) ?>"});
@@ -226,7 +244,7 @@
                                                         <td><?=$s->nama_desa ?></td>
                                                         <td><?=$s->name_category ?></td>
                                                         <td>
-                                                            <img src="<?=base_url('assets/images/icon/'.$s->warna) ?>" width="50">
+                                                            <img src="<?=base_url('assets/images/icon/'.$s->warna) ?>" width="20">
                                                         </td>
                                                         <td><?=$s->jumlah ?></td>
                                                     </tr>
@@ -263,7 +281,7 @@
         .fadeIn(1000)
         .end()
         .appendTo('#slideshow');
-    },  3000);
+    },  2000);
 
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
