@@ -18,7 +18,7 @@ class LaporanController extends CI_Controller {
 	public function index()
 	{
         $data['show']               = $this->Laporan->total_perkab()->result();
-        $data['provinsi']           = $this->db->get('provinsi')->result();
+        $data['kabupaten']           = $this->db->get('kabupaten')->result();
         $template['title']          = 'Aplikasi Pantau Bibit - Laporan';
         $template['content']        = $this->load->view('laporan/index',$data);
 		$this->render($template);

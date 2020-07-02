@@ -117,16 +117,15 @@
                             <div class="card">
                                 <div class="card-body">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Provinsi</label>
-                                             <select id="propinsi" onchange="loadKabupaten()" name="prov" class="form-control">
+                                            <label for="exampleInputEmail1">Kabupaten</label>
+                                             <select id="kabupaten" onchange="loadKecamatan()" name="prov" class="form-control">
                                                 <option value="0">--Pilih Laporan--</option>
                                                 <?php
-                                                foreach ($provinsi as $p) :?>
-                                                    <option value="<?=$p->id_prov ?>"><?=$p->nama_prov; ?></option>
+                                                foreach ($kabupaten as $p) :?>
+                                                    <option value="<?=$p->id_kabupaten ?>"><?=$p->nama_kab; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                        <div id="kabupatenArea"></div>
                                         <div id="kecamatanArea"></div>
                                 </div>     
                             </div>
