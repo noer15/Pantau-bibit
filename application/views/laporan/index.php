@@ -37,7 +37,7 @@
             success: function(html)
             { 
                 $("#desaArea").html(html);
-                $("#desa").show();
+                getDataKecamatan();
             }
         }); 
     }
@@ -50,10 +50,11 @@
             let html= ''; let no = 1; let jumlah = 0;
             for($i=0; $i < res.length; $i++){
                 jumlah = jumlah + Number(res[$i]['jumlah']);
-                html += '<tr><td>'+no+'</td><td>'+res[$i]['nama_kab']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
+                html += '<tr><td>'+no+'</td><td>'+res[$i]['nama_kec']+'</td><td>'+res[$i]['jenis_name']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
                 no++;
             }
 
+            $('#kecamatanTable').hide();
             $("#kabupatenTable").show();
             $("#kabupatenData").html(html);
             $("#totalKabupaten").text(jumlah);
@@ -61,18 +62,30 @@
         })
     }
 
-    function getDataKecamatan($id)
+    function getDataKecamatan()
     {
+        $id = $('#kecamatan option:selected').val();
+        $.get('<?=site_url('laporan/getKecamatan')?>/'+$id, function(response){
+            let res = JSON.parse(response);
+            let html= ''; let no = 1; let jumlah = 0;
+            for($i=0; $i < res.length; $i++){
+                jumlah = jumlah + Number(res[$i]['jumlah']);
+                html += '<tr><td>'+no+'</td><td>'+res[$i]['nama_desa']+'</td><td>'+res[$i]['jenis_name']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
+                no++;
+            }
 
+            $("#kabupatenTable").hide();
+            $('#kecamatanTable').show();
+            $("#kecamatanData").html(html);
+            $("#totalKecamatan").text(jumlah);
+
+        })
     }
 
     function getDataDesa($id)
     {
 
     }
-
-    
-    
 </script>
        
 <div class="connect-container align-content-stretch d-flex flex-wrap">        
@@ -137,20 +150,21 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                        <table id="zero-conf" class="display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Kabupaten</th>
-                                                    <th>Total Penyumbang</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="kabupatenData"></tbody>  
-                                                <tr style="background-color: #949494; color: #fff">
-                                                    <td colspan="2">Total</td>
-                                                    <td id="totalKabupaten"></td>
-                                                </tr>
-                                        </table>
+                                    <table id="zero-conf" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Kecamatan</th>
+                                                <th>Jenis</th>
+                                                <th>Total Penyumbang</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="kabupatenData"></tbody>  
+                                            <tr style="background-color: #949494; color: #fff">
+                                                <td colspan="3">Total</td>
+                                                <td id="totalKabupaten"></td>
+                                            </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -163,18 +177,21 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                        <table id="zero-conf" class="display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Kecamatan</th>
-                                                    <th>Total Penyumbang</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="kecamatanData">
-                                                
-                                            </tbody>
-                                        </table>
+                                    <table id="zero-conf1" class="display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Desa</th>
+                                                <th>Jenis</th>
+                                                <th>Total Penyumbang</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="kecamatanData"></tbody>
+                                        <tr style="background-color: #949494; color: #fff">
+                                            <td colspan="3">Total</td>
+                                            <td id="totalKecamatan"></td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>

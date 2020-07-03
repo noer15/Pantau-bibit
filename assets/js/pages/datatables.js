@@ -1,7 +1,7 @@
 $(document).ready(function() {
     
     "use strict";
-    $('#zero-conf').DataTable();
+    $('#zero-conf,#zero-conf1,#zero-conf2').DataTable();
 
     $('#complex-header').DataTable();
 
