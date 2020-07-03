@@ -6,6 +6,8 @@ class LaporanController extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Laporan');
+        $this->middleware->isLogin();
+        
     }
     public function render($template)
     {
@@ -14,22 +16,23 @@ class LaporanController extends CI_Controller {
             'content'   => $template['content']
             ]);
     }
-	
-	public function index()
-	{
+    
+    public function index()
+    {
         $data['show']               = $this->Laporan->total_perkab()->result();
-        $data['kabupaten']           = $this->db->get('kabupaten')->result();
+        $data['provinsi']           = $this->db->get('provinsi')->result();
         $template['title']          = 'Aplikasi Pantau Bibit - Laporan';
         $template['content']        = $this->load->view('laporan/index',$data);
-		$this->render($template);
+        $this->render($template);
     }
 
     function kabupaten(){
         $propinsiID = $_GET['id'];
-        $kabupaten   = $this->db->order_by('nama_kab','ASC')->get_where('kabupaten',array('id_prov'=>$propinsiID));
+        $kabupaten   = $this->db->get_where('kabupaten',array('id_prov'=>$propinsiID));
         echo " <div class='form-group'>
                 <label>Kabupaten</label>";
-        echo "<select id='kabupaten' onChange='loadKecamatan()' class='form-control' name='kab'>";
+        echo "<select id='kabupaten' onChange='loadKecamatan()' class='form-control custom-select' name='kab'>";
+        echo "<option value='0'> --Pilih Kabupaten -- </option>";
         foreach ($kabupaten->result() as $k)
         {
             echo "<option value='$k->id_kabupaten'>$k->nama_kab</option>";
@@ -41,27 +44,76 @@ class LaporanController extends CI_Controller {
     
     function kecamatan(){
         $kabupatenID = $_GET['id'];
-        $kecamatan   = $this->db->order_by('nama_kec','ASC')->get_where('kecamatan',array('id_kabupaten'=>$kabupatenID));
+        $kecamatan   = $this->db->get_where('kecamatan',array('id_kabupaten'=>$kabupatenID));
         $getkab     = $this->Laporan->get_kab($kabupatenID)->result();
         echo " <div class='form-group'>
                 <label>Kecamatan</label>";
-        echo "<select id='kecamatan' onChange='loadDesa()' class='form-control' name='kec'>";
-        echo "<option value='0'> < ALL ></option>";
+        echo "<select id='kecamatan' onChange='loadDesa()' class='form-control custom-select' name='kec'>";
+        echo "<option value='0'> --Pilih Kecamatan--</option>";
         foreach ($kecamatan->result() as $k)
         {
             echo "<option value='$k->id_kecamatan'>$k->nama_kec</option>";
         }
-        echo"</select></div><br>";
+        echo"</select></div>";
 
     }
 
-    public function desa(){
+   function desa(){
         $kecamatanID  = $_GET['id'];
-        $desa         = $this->db->get_where('desa',array('id_kecamatan'=>$kecamatanID))->result();
-        echo json_encode($desa);
+        $desa         = $this->db->get_where('desa',array('id_kecamatan'=>$kecamatanID));
+        echo " <div class='form-group'>
+                <label>Desa</label>";
+        echo "<select id='wilayah' onChange='getDataDesa()' class='form-control custom-select' name='id_desa'>";
+        echo "<option value='0' >--Pilih Desa --</option>";
+        foreach ($desa->result() as $d)
+        {
+            echo "<option value='$d->id_desa' data-id='$d->id_desa'>$d->nama_desa</option>";
+        }
+        echo"</select></div>";
     }
 
+    public function viewDesa()
+    {
+        $desaID  = $_GET['id'];
+        $desa         = $this->db->get_where('sumbangan',array('id_desa'=>$desaID))->result();
+        print_r($desa);
+
+    }
     // ambil data
+    public function getProvinsi($id){
+        $prov = $this->Laporan->getProv($id)->result();
+        $kab = $this->db->order_by('nama_kab','ASC')->get_where('kabupaten',['id_prov' => $id])->result();
+        $response = array();
+        if(empty($prov)){
+            foreach($kab as $k){
+                $response[] = array(
+                    'kabupaten' => $k->nama_kab,
+                    'jenis'     => 0,
+                    'jumlah'    => 0,
+                );
+            }
+        }else{
+            foreach($kab as $k){
+                foreach($prov as $p){
+                    if($k->id_kabupaten == $p->id_kabupaten){
+                        $response[] = array(
+                            'kabupaten' => $k->nama_kab,
+                            'jenis'     => $p->jenis_name,
+                            'jumlah'    => $p->jumlah,
+                        );
+                    }else{
+                        $response[] = array(
+                            'kabupaten' => $k->nama_kab,
+                            'jenis'     => 0,
+                            'jumlah'    => 0,
+                        );
+                    }
+                }
+            }
+        }
+        echo json_encode($response);
+    }
+
     public function getKabupaten($id){
         $kab = $this->Laporan->getByKabupaten($id)->result();
         $kec = $this->db->order_by('nama_kec','ASC')->get_where('kecamatan',['id_kabupaten' => $id])->result();
@@ -133,9 +185,7 @@ class LaporanController extends CI_Controller {
 
     public function getDesa($id){
         $desa    = $this->Laporan->getByDesa($id)->result_array();
-        $this->output->set_content_type('application/json')
-                     ->set_output(json_encode($desa))
-                     ->display_();
+        echo json_encode($desa);
     }
 
     public function testing()

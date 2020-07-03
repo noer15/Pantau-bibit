@@ -9,7 +9,7 @@
             success: function(html)
             { 
                 $("#kabupatenArea").html(html);
-                getDataKabupaten();
+                getDataProv();
             }
         }); 
     }
@@ -42,6 +42,27 @@
         }); 
     }
 
+    function getDataProv()
+    {
+        $id = $('#propinsi option:selected').val();
+        $.get('<?=site_url('laporan/getProvinsi')?>/'+$id, function(response){
+            let res = JSON.parse(response);
+            let html= ''; let no = 1; let jumlah = 0;
+            for($i=0; $i < res.length; $i++){
+                jumlah = jumlah + Number(res[$i]['jumlah']);
+                html += '<tr><td>'+no+'</td><td>'+res[$i]['kabupaten']+'</td><?php foreach ($this->db->limit(4)->get('jenis')->result() as $key): ?><td>'+res[$i]['jenis']+'</td><?php endforeach ?><td>'+res[$i]['jenis']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
+                no++;
+            }
+
+            $('#kecamatanTable').hide();
+            $('#kabupatenTable').hide();
+            $("#provinsiTable").show();
+            $("#provinsiData").html(html);
+            $("#totalProv").text(jumlah);
+
+        })
+    }
+
     function getDataKabupaten()
     {
         $id = $('#kabupaten option:selected').val();
@@ -55,6 +76,7 @@
             }
 
             $('#kecamatanTable').hide();
+            $('#provinsiTable').hide();
             $("#kabupatenTable").show();
             $("#kabupatenData").html(html);
             $("#totalKabupaten").text(jumlah);
@@ -124,27 +146,59 @@
                 </nav>
                 
                 </div>
+                
                 <div class="main-wrapper">
                     <div class="row">
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Kabupaten</label>
-                                             <select id="kabupaten" onchange="loadKecamatan()" name="prov" class="form-control">
+                                            <label for="exampleInputEmail1">Laporan</label>
+                                             <select id="propinsi" onchange="loadKabupaten()" name="prov" class="form-control">
                                                 <option value="0">--Pilih Laporan--</option>
                                                 <?php
-                                                foreach ($kabupaten as $p) :?>
-                                                    <option value="<?=$p->id_kabupaten ?>"><?=$p->nama_kab; ?></option>
+                                                foreach ($provinsi as $p) :?>
+                                                    <option value="<?=$p->id_prov ?>">All Kabupaten</option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+                                        <div id="kabupatenArea"></div>
+
                                         <div id="kecamatanArea"></div>
                                 </div>     
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="main-wrapper" id="provinsiTable" style="display: none;">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="zero-conf" class="display" style="width:100%;overflow: scroll;">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Kabupaten</th>
+                                                <?php foreach ($this->db->limit(5)->get('jenis')->result() as $r): ?>
+                                                    <th><?=$r->jenis_name ?></th>
+                                                <?php endforeach ?>
+                                                <th>Total Penyumbang</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="provinsiData"></tbody>  
+                                            <tr style="background-color: #949494; color: #fff">
+                                                <td colspan="auto">Total</td>
+                                                <td id="totalProv"></td>
+                                            </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="main-wrapper" id="kabupatenTable" style="display: none;">
                     <div class="row">
                         <div class="col">
