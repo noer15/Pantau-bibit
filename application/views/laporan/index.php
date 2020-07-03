@@ -50,7 +50,7 @@
             let html= ''; let no = 1; let jumlah = 0;
             for($i=0; $i < res.length; $i++){
                 jumlah = jumlah + Number(res[$i]['jumlah']);
-                html += '<tr><td>'+no+'</td><td>'+res[$i]['nama_kec']+'</td><td>'+res[$i]['jenis_name']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
+                html += '<tr><td>'+no+'</td><td>'+res[$i]['kecamatan']+'</td><td>'+res[$i]['jenis']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
                 no++;
             }
 
@@ -70,7 +70,7 @@
             let html= ''; let no = 1; let jumlah = 0;
             for($i=0; $i < res.length; $i++){
                 jumlah = jumlah + Number(res[$i]['jumlah']);
-                html += '<tr><td>'+no+'</td><td>'+res[$i]['nama_desa']+'</td><td>'+res[$i]['jenis_name']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
+                html += '<tr><td>'+no+'</td><td>'+res[$i]['desa']+'</td><td>'+res[$i]['jenis']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
                 no++;
             }
 
