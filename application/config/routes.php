@@ -51,6 +51,7 @@ $route['laporan/kecamatan']    			= 'LaporanController/kecamatan';
 $route['laporan/desa']    				= 'LaporanController/desa';
 
 $route['laporan/testing']    			= 'LaporanController/testing';
+$route['laporan/getProvinsi/(:num)']   = 'LaporanController/getProvinsi/$1';
 $route['laporan/getKabupaten/(:num)']   = 'LaporanController/getKabupaten/$1';
 $route['laporan/getKecamatan/(:num)']   = 'LaporanController/getKecamatan/$1';
 $route['laporan/getDesa/(:num)']        = 'LaporanController/getDesa/$1';
