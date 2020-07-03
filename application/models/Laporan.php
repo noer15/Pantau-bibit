@@ -76,6 +76,15 @@ class Laporan extends CI_Model
 	}
 
 	//Data perwilayah
+	public function getProv($id)
+	{
+		return $this->db
+		->join('kabupaten','kabupaten.id_kabupaten=sumbangan.id_kab')
+		->join('jenis','jenis.id_jenis=sumbangan.id_jenis')
+		->where('kabupaten.id_prov', $id)
+		->get('sumbangan');
+	}
+	
 	public function getByKabupaten($id)
 	{
 		return $this->db

@@ -6,7 +6,6 @@ class LaporanController extends CI_Controller {
     {
         parent::__construct();
         $this->load->model('Laporan');
-        $this->middleware->isLogin();
         
     }
     public function render($template)
