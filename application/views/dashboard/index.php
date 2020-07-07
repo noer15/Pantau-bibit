@@ -281,7 +281,7 @@
         .fadeIn(1000)
         .end()
         .appendTo('#slideshow');
-    },  2000);
+    },  4000);
 
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {

@@ -50,7 +50,7 @@
             let html= ''; let no = 1; let jumlah = 0;
             for($i=0; $i < res.length; $i++){
                 jumlah = jumlah + Number(res[$i]['jumlah']);
-                html += '<tr><td>'+no+'</td><td>'+res[$i]['kabupaten']+'</td><?php foreach ($this->db->limit(4)->get('jenis')->result() as $key): ?><td>'+res[$i]['jenis']+'</td><?php endforeach ?><td>'+res[$i]['jenis']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
+                html += '<tr><td>'+no+'</td><td>'+res[$i]['kabupaten']+'</td><?php foreach ($this->db->get('jenis')->result() as $key): ?><td>'+res[$i]['jenis']+'</td><?php endforeach ?><td>'+res[$i]['jenis']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
                 no++;
             }
 
@@ -181,7 +181,7 @@
                                             <tr>
                                                 <th>No</th>
                                                 <th>Kabupaten</th>
-                                                <?php foreach ($this->db->limit(5)->get('jenis')->result() as $r): ?>
+                                                <?php foreach ($this->db->order_by('jenis_name','ASC')->get('jenis')->result() as $r): ?>
                                                     <th><?=$r->jenis_name ?></th>
                                                 <?php endforeach ?>
                                                 <th>Total Penyumbang</th>
