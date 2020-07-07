@@ -79,12 +79,64 @@ class LaporanController extends CI_Controller {
 
     }
     // ambil data
+    private function getJenis($id_kab = null, $id_kec = null, $id_des = null){
+        $jenis  = $this->db->order_by('jenis_name','ASC')->get('jenis')->result();
+        $data   = array();
+        foreach($jenis as $j){
+            $data[] = array(
+                'nama'      => $j->jenis_name,
+                'jumlah'    => $this->getJumlah($id_kab,$id_kec,$id_des,$j->id_jenis)
+            );
+        }
+
+        return $data;
+    }
+
+    private function getJumlah($id_kab,$id_kec,$id_des,$id_jenis){
+        if(!empty($id_kab)){
+            $result = array();
+            $data = $this->db->get_where('sumbangan',['id_kab' => $id_kab,'id_jenis' => $id_jenis])->result();
+            foreach($data as $d){
+                $result[]   = array(
+                    'id_jenis'  => $d->id_jenis,
+                    'jumlah'    => $d->jumlah,
+                );
+            }
+            return $result;
+        }
+
+        if(!empty($id_kec)){
+            return $this->db->get_where('sumbangan',['id_kec' => $id_kab,'id_jenis' => $id_jenis])->result();
+        }
+
+        if(!empty($id_des)){
+            return $this->db->get_where('sumbangan',['id_desa' => $id_kab,'id_jenis' => $id_jenis])->result();
+        }
+
+    }
+
+    private function getTotal($id_kab,$id_kec,$id_des,$id_jenis){
+        if(!empty($id_kab)){
+            return $this->db->get_where('sumbangan',['id_kab' => $id_kab])->num_rows();
+        }
+
+        if(!empty($id_kec)){
+            return $this->db->get_where('sumbangan',['id_kec' => $id_kab])->result();
+        }
+
+        if(!empty($id_des)){
+            return $this->db->get_where('sumbangan',['id_desa' => $id_kab])->result();
+        }
+
+    }
+    
+
+
     public function getProvinsi($id){
-        $prov   = $this->Laporan->getProv($id)->result();
-        $kab    = $this->db->order_by('nama_kab','ASC')->get_where('kabupaten',['id_prov' => $id])->result();
+        $kab   = $this->Laporan->getKab($id)->result();
         $jenis  = $this->db->order_by('jenis_name','ASC')->get('jenis')->result();
         $response = array(); $dataJenis = array();
-        if(empty($prov)){
+        if(empty($kab)){
             foreach($kab as $k){
                 $response[] = array(
                     'kabupaten' => $k->nama_kab,
@@ -93,37 +145,48 @@ class LaporanController extends CI_Controller {
                 );
             }
         }else{
-            foreach($jenis as $jn){
-                foreach($prov as $p){
-                    if($jn->id_jenis == $p->id_jenis){
-                        $dataJenis[] = array(
-                            $jn->jenis_name => $p->jumlah
-                        );
-                    }else{
-                        $dataJenis[] = array(
-                            $jn->jenis_name => 0
-                        );
-                    }
-                }
-            }
+
             foreach($kab as $k){
-                foreach($prov as $p){
-                    if($k->id_kabupaten == $p->id_kabupaten){
-                        $response[] = array(
-                            'kabupaten' => $k->nama_kab,
-                            'jenis'     => $dataJenis,
-                            'jumlah'    => $p->jumlah,
-                        );
-                    }else{
-                        $response[] = array(
-                            'kabupaten' => $k->nama_kab,
-                            'jenis'     => $dataJenis,
-                            'jumlah'    => 0,
-                        );
-                    }
-                }
+                $response[] = array(
+                    'kabupaten' => $k->nama_kab,
+                    'jenis'     => $this->getJenis($k->id_kabupaten,null,null,null),
+                    'jumlah'    => $this->getTotal($k->id_kabupaten,null,null,null)
+                );
             }
+
+            // foreach($jenis as $jn){
+            //     foreach($prov as $p){
+            //         if($jn->id_jenis == $p->id_jenis){
+            //             $dataJenis[] = array(
+            //                 $jn->jenis_name => $p->jumlah
+            //             );
+            //         }else{
+            //             $dataJenis[] = array(
+            //                 $jn->jenis_name => 0
+            //             );
+            //         }
+            //     }
+            // }
+
+            // foreach($kab as $k){
+            //     foreach($prov as $p){
+            //         if($k->id_kabupaten == $p->id_kabupaten){
+            //             $response[] = array(
+            //                 'kabupaten' => $k->nama_kab,
+            //                 'jenis'     => $dataJenis,
+            //                 'jumlah'    => $p->jumlah,
+            //             );
+            //         }else{
+            //             $response[] = array(
+            //                 'kabupaten' => $k->nama_kab,
+            //                 'jenis'     => $dataJenis,
+            //                 'jumlah'    => 0,
+            //             );
+            //         }
+            //     }
+            // }
         }
+        // print_r($response); exit();
         echo json_encode($response);
     }
 

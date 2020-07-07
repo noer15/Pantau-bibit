@@ -80,9 +80,17 @@ class Laporan extends CI_Model
 	{
 		return $this->db
 		->join('kabupaten','kabupaten.id_kabupaten=sumbangan.id_kab')
-		->join('jenis','jenis.id_jenis=sumbangan.id_jenis')
+		// ->join('jenis','jenis.id_jenis=sumbangan.id_jenis')
 		->where('kabupaten.id_prov', $id)
 		->get('sumbangan');
+	}
+
+	public function getKab($id)
+	{
+		return $this->db
+		->where('id_prov',$id)
+		->order_by('nama_kab','ASC')
+		->get('kabupaten');
 	}
 	
 	public function getByKabupaten($id)

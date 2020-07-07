@@ -1,4 +1,5 @@
 <script type="text/javascript">
+    const jenis = [<?php foreach ($this->db->order_by('jenis_name','ASC')->get('jenis')->result() as $key):?>{'id_jenis': '<?=$key->id_jenis?>', 'nama_jenis' : '<?=$key->jenis_name?>'},<?php endforeach; ?>];
     function loadKabupaten()
     {
         var propinsi = $("#propinsi").val();
@@ -50,9 +51,14 @@
             let html= ''; let no = 1; let jumlah = 0;
             for($i=0; $i < res.length; $i++){
                 jumlah = jumlah + Number(res[$i]['jumlah']);
+                
                 html += '<tr><td>'+no+'</td><td>'+res[$i]['kabupaten']+'</td><?php foreach ($this->db->get('jenis')->result() as $key): ?><td>'+res[$i]['jenis']+'</td><?php endforeach ?><td>'+res[$i]['jenis']+'</td><td>'+res[$i]['jumlah']+'</td></tr>';
                 no++;
             }
+
+            for($j=0; jenis.length; $j++){
+                console.log(jenis[$j].nama_jenis);
+            };
 
             $('#kecamatanTable').hide();
             $('#kabupatenTable').hide();
